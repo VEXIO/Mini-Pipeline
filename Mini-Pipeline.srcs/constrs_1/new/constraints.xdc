@@ -1,3 +1,4 @@
+set_property SEVERITY {Warning} [get_drc_checks LUTLP-1]
 
 set_property -dict {PACKAGE_PIN AC18 IOSTANDARD LVDS} [get_ports clk_p]
 set_property -dict {PACKAGE_PIN AD18 IOSTANDARD LVDS} [get_ports clk_n]
