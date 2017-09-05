@@ -48,15 +48,19 @@ module Top(
 
     vgac VGAUnit (.vga_clk(clk25), .clrn(1'b1), .d_in(d_in), .row_addr(row_addr), .col_addr(col_addr), .rdn(rdn), .r(vga_red), .g(vga_green), .b(vga_blue), .hs(vga_h_sync), .vs(vga_v_sync));
 
-    seg_parallel2serial seg_parallel2serial (
-        .clk(clk),  // main clock should be 200MHz
+    SSeg7_Dev SSeg7_Dev (
+        .clk(clk25),  // main clock should be 200MHz
         .rst(1'b0),  // synchronous reset
-        .data({clkdiv, clkdiv}),  // parallel input data
-        .seg_en(1'b1),	// seg enable signal
-        .busy(),  // busy flag
-        .finish(),  // finish acknowledgement
+        .Start(1'b1), // synchronous start
+        .SW0(1'b1), // text or pixel
+        .flash(1'b0), // frequency
+        .Hexs(clkdiv), // parallel input data
+        .point(8'hff), // parallel input point
+        .LES(8'h00), // parallel input blink point
         .seg_clk(seg_clk),  // serial clock
-        .seg_pen(seg_pen),	// serial enable output
-        .seg_dat(seg_do)  // serial output data
+        .SEG_PEN(seg_pen),	// serial enable output
+        .seg_sout(seg_do),  // serial output data
+        .seg_clrn() // seg clear
     );
+
 endmodule
