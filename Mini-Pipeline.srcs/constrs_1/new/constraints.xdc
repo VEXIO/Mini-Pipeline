@@ -1,3 +1,6 @@
+# reset
+set_property -dict {PACKAGE_PIN W13 IOSTANDARD LVCMOS18} [get_ports RSTN]
+
 # clock
 set_property -dict {PACKAGE_PIN AC18 IOSTANDARD LVDS} [get_ports clk_p]
 set_property -dict {PACKAGE_PIN AD18 IOSTANDARD LVDS} [get_ports clk_n]
@@ -18,42 +21,42 @@ set_property -dict {PACKAGE_PIN P21 IOSTANDARD LVCMOS33 SLEW FAST} [get_ports {v
 set_property -dict {PACKAGE_PIN M22 IOSTANDARD LVCMOS33 SLEW FAST} [get_ports vga_h_sync]
 set_property -dict {PACKAGE_PIN M21 IOSTANDARD LVCMOS33 SLEW FAST} [get_ports vga_v_sync]
 
-## led
-#set_property -dict {PACKAGE_PIN N26 IOSTANDARD LVCMOS33} [get_ports led_clk]
-#set_property -dict {PACKAGE_PIN N24 IOSTANDARD LVCMOS33} [get_ports led_pen]
-#set_property -dict {PACKAGE_PIN M26 IOSTANDARD LVCMOS33} [get_ports led_do]
+# btn array
+set_property -dict {PACKAGE_PIN V17 IOSTANDARD LVCMOS18} [get_ports {BTN_x[0]}]
+set_property -dict {PACKAGE_PIN W18 IOSTANDARD LVCMOS18} [get_ports {BTN_x[1]}]
+set_property -dict {PACKAGE_PIN W19 IOSTANDARD LVCMOS18} [get_ports {BTN_x[2]}]
+set_property -dict {PACKAGE_PIN W15 IOSTANDARD LVCMOS18} [get_ports {BTN_x[3]}]
+set_property -dict {PACKAGE_PIN W16 IOSTANDARD LVCMOS18} [get_ports {BTN_x[4]}]
+set_property -dict {PACKAGE_PIN V18 IOSTANDARD LVCMOS18} [get_ports {BTN_y[0]}]
+set_property -dict {PACKAGE_PIN V19 IOSTANDARD LVCMOS18} [get_ports {BTN_y[1]}]
+set_property -dict {PACKAGE_PIN V14 IOSTANDARD LVCMOS18} [get_ports {BTN_y[2]}]
+set_property -dict {PACKAGE_PIN W14 IOSTANDARD LVCMOS18} [get_ports {BTN_y[3]}]
+set_property -dict {PACKAGE_PIN V16 IOSTANDARD LVCMOS18} [get_ports {BTN_y[4]}]
 
-# seg
+# seg device
 set_property -dict {PACKAGE_PIN M24 IOSTANDARD LVCMOS33} [get_ports seg_clk]
-set_property -dict {PACKAGE_PIN L24 IOSTANDARD LVCMOS33} [get_ports seg_do]
-set_property -dict {PACKAGE_PIN R18 IOSTANDARD LVCMOS33} [get_ports seg_pen]
+set_property -dict {PACKAGE_PIN R18 IOSTANDARD LVCMOS33} [get_ports SEG_PEN]
+set_property -dict {PACKAGE_PIN L24 IOSTANDARD LVCMOS33} [get_ports seg_sout]
 
-## btn
-#set_property -dict {PACKAGE_PIN V17 IOSTANDARD LVCMOS18} [get_ports {btn_x[0]}]
-#set_property -dict {PACKAGE_PIN W18 IOSTANDARD LVCMOS18} [get_ports {btn_x[1]}]
-#set_property -dict {PACKAGE_PIN W19 IOSTANDARD LVCMOS18} [get_ports {btn_x[2]}]
-#set_property -dict {PACKAGE_PIN W15 IOSTANDARD LVCMOS18} [get_ports {btn_x[3]}]
-#set_property -dict {PACKAGE_PIN W16 IOSTANDARD LVCMOS18} [get_ports {btn_x[4]}]
-#set_property -dict {PACKAGE_PIN V18 IOSTANDARD LVCMOS18} [get_ports {btn_y[0]}]
-#set_property -dict {PACKAGE_PIN V19 IOSTANDARD LVCMOS18} [get_ports {btn_y[1]}]
-#set_property -dict {PACKAGE_PIN V14 IOSTANDARD LVCMOS18} [get_ports {btn_y[2]}]
-#set_property -dict {PACKAGE_PIN W14 IOSTANDARD LVCMOS18} [get_ports {btn_y[3]}]
-#set_property -dict {PACKAGE_PIN V16 IOSTANDARD LVCMOS18} [get_ports {btn_y[4]}]
+# led bar
+set_property -dict {PACKAGE_PIN N26 IOSTANDARD LVCMOS33} [get_ports led_clk]
+set_property -dict {PACKAGE_PIN N24 IOSTANDARD LVCMOS33} [get_ports LED_PEN]
+set_property -dict {PACKAGE_PIN M26 IOSTANDARD LVCMOS33} [get_ports led_sout]
 
-## switch
-#set_property -dict {PACKAGE_PIN AA10 IOSTANDARD LVCMOS15} [get_ports {switch[0]}]
-#set_property -dict {PACKAGE_PIN AB10 IOSTANDARD LVCMOS15} [get_ports {switch[1]}]
-#set_property -dict {PACKAGE_PIN AA13 IOSTANDARD LVCMOS15} [get_ports {switch[2]}]
-#set_property -dict {PACKAGE_PIN AA12 IOSTANDARD LVCMOS15} [get_ports {switch[3]}]
-#set_property -dict {PACKAGE_PIN Y13 IOSTANDARD LVCMOS15} [get_ports {switch[4]}]
-#set_property -dict {PACKAGE_PIN Y12 IOSTANDARD LVCMOS15} [get_ports {switch[5]}]
-#set_property -dict {PACKAGE_PIN AD11 IOSTANDARD LVCMOS15} [get_ports {switch[6]}]
-#set_property -dict {PACKAGE_PIN AD10 IOSTANDARD LVCMOS15} [get_ports {switch[7]}]
-#set_property -dict {PACKAGE_PIN AE10 IOSTANDARD LVCMOS15} [get_ports {switch[8]}]
-#set_property -dict {PACKAGE_PIN AE12 IOSTANDARD LVCMOS15} [get_ports {switch[9]}]
-#set_property -dict {PACKAGE_PIN AF12 IOSTANDARD LVCMOS15} [get_ports {switch[10]}]
-#set_property -dict {PACKAGE_PIN AE8 IOSTANDARD LVCMOS15} [get_ports {switch[11]}]
-#set_property -dict {PACKAGE_PIN AF8 IOSTANDARD LVCMOS15} [get_ports {switch[12]}]
-#set_property -dict {PACKAGE_PIN AE13 IOSTANDARD LVCMOS15} [get_ports {switch[13]}]
-#set_property -dict {PACKAGE_PIN AF13 IOSTANDARD LVCMOS15} [get_ports {switch[14]}]
-#set_property -dict {PACKAGE_PIN AF10 IOSTANDARD LVCMOS15} [get_ports {switch[15]}]
+# switch
+set_property -dict {PACKAGE_PIN AA10 IOSTANDARD LVCMOS15} [get_ports {SW[0]}]
+set_property -dict {PACKAGE_PIN AB10 IOSTANDARD LVCMOS15} [get_ports {SW[1]}]
+set_property -dict {PACKAGE_PIN AA13 IOSTANDARD LVCMOS15} [get_ports {SW[2]}]
+set_property -dict {PACKAGE_PIN AA12 IOSTANDARD LVCMOS15} [get_ports {SW[3]}]
+set_property -dict {PACKAGE_PIN Y13 IOSTANDARD LVCMOS15} [get_ports {SW[4]}]
+set_property -dict {PACKAGE_PIN Y12 IOSTANDARD LVCMOS15} [get_ports {SW[5]}]
+set_property -dict {PACKAGE_PIN AD11 IOSTANDARD LVCMOS15} [get_ports {SW[6]}]
+set_property -dict {PACKAGE_PIN AD10 IOSTANDARD LVCMOS15} [get_ports {SW[7]}]
+set_property -dict {PACKAGE_PIN AE10 IOSTANDARD LVCMOS15} [get_ports {SW[8]}]
+set_property -dict {PACKAGE_PIN AE12 IOSTANDARD LVCMOS15} [get_ports {SW[9]}]
+set_property -dict {PACKAGE_PIN AF12 IOSTANDARD LVCMOS15} [get_ports {SW[10]}]
+set_property -dict {PACKAGE_PIN AE8 IOSTANDARD LVCMOS15} [get_ports {SW[11]}]
+set_property -dict {PACKAGE_PIN AF8 IOSTANDARD LVCMOS15} [get_ports {SW[12]}]
+set_property -dict {PACKAGE_PIN AE13 IOSTANDARD LVCMOS15} [get_ports {SW[13]}]
+set_property -dict {PACKAGE_PIN AF13 IOSTANDARD LVCMOS15} [get_ports {SW[14]}]
+set_property -dict {PACKAGE_PIN AF10 IOSTANDARD LVCMOS15} [get_ports {SW[15]}]
