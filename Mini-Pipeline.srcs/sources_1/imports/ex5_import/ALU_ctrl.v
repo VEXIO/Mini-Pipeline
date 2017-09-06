@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-module ALUctl(clk, ALUop, func_code, ALUoper
+module ALU_ctrl(clk, ALUop, func_code, ALUoper
 );
         input wire clk;
         input wire [1:0] ALUop;

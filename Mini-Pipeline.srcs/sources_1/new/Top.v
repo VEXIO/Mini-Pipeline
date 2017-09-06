@@ -89,6 +89,6 @@ module Top(
     SSeg7_Dev U6(.clk(clk), .rst(~RSTN), .Start(clkdiv[20]), .SW0(1'b1), .flash(1'b0), .Hexs(display), .point(8'b0), .LES(8'b1), .seg_clk(seg_clk), .seg_sout(seg_sout), .SEG_PEN(seg_pen), .seg_clrn());
 
     assign CPU_clk = SW_OK[7] ? clkdiv[31] : SW_OK[15] ? clkdiv[20] : clkdiv[25];
-    mul_CPU cpu(.clk(CPU_clk), .rst(~RSTN), .display(SW_OK[15:0]), .instruction(instruction), .pc_next(pc));
+    Multi_CPU MCPU(.clk(CPU_clk), .rst(~RSTN), .display(SW_OK[15:0]), .instruction(instruction), .pc_next(pc));
 
 endmodule

@@ -1,24 +1,5 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company:
-// Engineer:
-//
-// Create Date:    10:25:48 06/01/2017
-// Design Name:
-// Module Name:    multi_ctl
-// Project Name:
-// Target Devices:
-// Tool versions:
-// Description:
-//
-// Dependencies:
-//
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-//
-//////////////////////////////////////////////////////////////////////////////////
-module multi_ctl(
+module m_ctrl(
          input wire clk,
          input wire [5:0] OP,
          output reg [3:0] next_status,
