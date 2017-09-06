@@ -42,9 +42,9 @@ module text_display(
     wire [5:0] y_id = coord_y[8:3];
     wire [2:0] y_os = coord_y[2:0];
 
-    wire [12:0] f_id = x_id + y_id * 80;
+    wire [12:0] f_id = x_id + y_id * 40;
 
-    wire [12:0] pos = {y_os, x_os} + 13'd4160 + {f_id[6:0], 6'b0};
+    wire [12:0] pos = 13'h840 + {f_id[5:0], y_os, x_os};
 
     wire texel_o;
     font_table font_table(.a(pos), .d(texel_o));

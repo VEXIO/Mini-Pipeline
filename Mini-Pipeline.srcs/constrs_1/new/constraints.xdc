@@ -35,13 +35,8 @@ set_property -dict {PACKAGE_PIN V16 IOSTANDARD LVCMOS18} [get_ports {BTN_y[4]}]
 
 # seg device
 set_property -dict {PACKAGE_PIN M24 IOSTANDARD LVCMOS33} [get_ports seg_clk]
-set_property -dict {PACKAGE_PIN R18 IOSTANDARD LVCMOS33} [get_ports SEG_PEN]
+set_property -dict {PACKAGE_PIN R18 IOSTANDARD LVCMOS33} [get_ports seg_pen]
 set_property -dict {PACKAGE_PIN L24 IOSTANDARD LVCMOS33} [get_ports seg_sout]
-
-# led bar
-set_property -dict {PACKAGE_PIN N26 IOSTANDARD LVCMOS33} [get_ports led_clk]
-set_property -dict {PACKAGE_PIN N24 IOSTANDARD LVCMOS33} [get_ports LED_PEN]
-set_property -dict {PACKAGE_PIN M26 IOSTANDARD LVCMOS33} [get_ports led_sout]
 
 # switch
 set_property -dict {PACKAGE_PIN AA10 IOSTANDARD LVCMOS15} [get_ports {SW[0]}]
