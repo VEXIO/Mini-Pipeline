@@ -1,36 +1,30 @@
 `timescale 1ns / 1ps
 module m_ctrl(
-         input wire clk,
-         input wire [5:0] OP,
-         output reg [3:0] next_status,
-         output reg PC_write_condition,
-         output reg PC_write,
-         output reg IorD,
-         output reg mem_read,
-         output reg mem_write,
-         output reg mem_to_reg,
-         output reg IR_write,
-         output reg [1:0] PC_source,
-         output reg [1:0] ALU_op,
-         output reg ALU_src_A,
-         output reg [1:0] ALU_src_B,
-         output reg reg_write,
-         output reg reg_dst,
-         output wire R,
-         output wire I,
-         output wire J
-        );
+    input wire clk,
+    input wire [5:0] OP,
+    output reg [3:0] next_status = 4'b0,
+    output reg PC_write_condition,
+    output reg PC_write,
+    output reg IorD,
+    output reg mem_read,
+    output reg mem_write,
+    output reg mem_to_reg,
+    output reg IR_write,
+    output reg [1:0] PC_source,
+    output reg [1:0] ALU_op,
+    output reg ALU_src_A,
+    output reg [1:0] ALU_src_B,
+    output reg reg_write,
+    output reg reg_dst
+);
 
-wire BEQ, LW, SW;
+    wire LW = OP == 6'b100011; // OP[0]& OP[1]&~OP[2]&~OP[3]&~OP[4]& OP[5]
+    wire SW = OP == 6'b101011; // OP[0]& OP[1]&~OP[2]& OP[3]&~OP[4]& OP[5]
+    wire BEQ = OP == 6'b000100; // ~OP[0]&~OP[1]& OP[2]&~OP[3]&~OP[4]&~OP[5]
+    wire R = OP == 6'b000000; // ~OP[0]&~OP[1]&~OP[2]&~OP[3]&~OP[4]&~OP[5]
+    wire J = OP == 6'b000010;
 
-assign I = (LW || SW || BEQ);
-assign R  = (OP == 6'b000000); // ~OP[0]&~OP[1]&~OP[2]&~OP[3]&~OP[4]&~OP[5]
-assign LW = (OP == 6'b100011); // OP[0]& OP[1]&~OP[2]&~OP[3]&~OP[4]& OP[5]
-assign SW = (OP == 6'b101011); // OP[0]& OP[1]&~OP[2]& OP[3]&~OP[4]& OP[5]
-assign BEQ= (OP == 6'b000100); // ~OP[0]&~OP[1]& OP[2]&~OP[3]&~OP[4]&~OP[5]
-assign J = (OP == 6'b000010);
-
-always @(posedge clk) begin
+always @ (posedge clk) begin
 case (next_status)
     4'b0000:  begin
         // move to 1
@@ -226,10 +220,6 @@ case (next_status)
         next_status <= 4'b0000;
     end
 endcase
-end
-
-initial begin
-    next_status <= 4'b0000;
 end
 
 endmodule
