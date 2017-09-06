@@ -62,10 +62,34 @@ module Top(
     wire [8:0] row_addr;
     wire [9:0] col_addr;
     wire rdn;
-    wire [11:0] d_in = (row_addr < 9'd240) ? 12'hf00 :
+    wire [11:0] d_background = (row_addr < 9'd240) ? 12'hf00 :
                        (col_addr < 10'd320 ? 12'h0f0 : 12'h00f);
+    wire [11:0] d_font = 12'hfff;
+
+    wire texel_on;
+    text_display text_display(.row_addr(row_addr), .col_addr(col_addr), .o(texel_on));
+
+    wire [11:0] d_in = texel_on ? d_font : d_background;
 
     vgac vgac (.vga_clk(clk25), .clrn(1'b1), .d_in(d_in), .row_addr(row_addr), .col_addr(col_addr), .rdn(rdn), .r(vga_red), .g(vga_green), .b(vga_blue), .hs(vga_h_sync), .vs(vga_v_sync));
+
+
+    // wire wea = !clk25 & clk;
+    // wire CPU_VRAM_addr = 1'b0, VGA_VRAM_addr = 1'b0,
+    //      vram_addra = wea ? CPU_VRAM_addr : VGA_VRAM_addr,
+    //      dina = 1'b0,
+    //      douta = 1'b0;
+
+    // blk_mem_gen_0 VRAM(
+    //     .clka(clk),
+    //     .rsta(1'b0),
+    //     .wea(wea),
+    //     .addra(vram_addra),
+    //     .dina(dina),
+    //     .douta(douta)
+    // );
+
+
 
     wire [31:0] instruction;
     wire [31:0] display_temp;
@@ -88,10 +112,9 @@ module Top(
     pbdebounce p2(.clk_1ms(clkdiv[22]), .button(SW_OK[11]), .pbreg(RSTB));
     decoder38 (.in(state_num), .out(tempo));
 
-    assign cnt_display = {20'b0,clkdiv[31:20]};
-    assign auto_clk = clk25;
+    assign cnt_display = SW_OK[15] ? {20'b0,clkdiv[31:20]} : {15'b0,clkdiv[31:15]};
+    assign auto_clk = SW_OK[15] ? clkdiv[20] : clkdiv[25];
     assign SW_OK = SW;
-    // clk_div(.clk(clk), .rst(RSTB), .SW2(SW_OK[15]), .cnt_display(cnt_display), .clkdiv(clkdiv), .Clk_CPU(auto_clk));
     // SAnti_jitter U9(.RSTN(RSTB), .readn(readn), .clk(clk), .Key_y(BTN_y), .Key_x(BTN_x), .SW(SW), .Key_out(Key_out), .pulse_out(Pulse), .SW_OK(SW_OK), .Key_ready(RDY), .BTN_OK(button_out), .CR(CR));
     SPIO U7(.clk(clk), .rst(RSTB), .Start(clkdiv[20]), .EN(1'b1), .P_Data({SW_OK[13:0], SW_OK[15:0], SW_OK[15:14]}), .led_clk(led_clk), .led_clrn(), .led_sout(led_sout), .LED_PEN(LED_PEN));
     SSeg7_Dev U6(.clk(clk), .rst(RSTB), .Start(clkdiv[20]), .SW0(1'b1), .flash(1'b0), .Hexs(display), .point(8'b0), .LES(8'b1), .seg_clk(seg_clk), .seg_sout(seg_sout), .SEG_PEN(SEG_PEN), .seg_clrn());
@@ -102,9 +125,8 @@ module Top(
     assign instrucstate = {cnt_display[3:0], type_display,{1'b0, state_num}, pc[3:0]};
     assign Clk_CPU = SW_OK[7] == 1'b1 ? man_clk : auto_clk;
     assign display = SW_OK[13] == 1'b1 ? instruction :
-                    SW_OK[14] == 1'b1 ? pc :
-                    SW_OK[6:5] == 2'b00 ? {16'b0, display_temp[15:0]} :
-                    SW_OK[6:5] == 2'b01 ? {16'b0, display_temp[31:16]} :
-                    SW_OK[6:5] == 2'b10 ? {16'b0, instrucstate} : 32'b0;
-
+                     SW_OK[14] == 1'b1 ? pc :
+                     SW_OK[6:5] == 2'b00 ? {16'b0, display_temp[15:0]} :
+                     SW_OK[6:5] == 2'b01 ? {16'b0, display_temp[31:16]} :
+                     SW_OK[6:5] == 2'b10 ? {16'b0, instrucstate} : 32'b0;
 endmodule
