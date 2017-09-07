@@ -14,8 +14,8 @@ module Top(
     inout wire [4:0] BTN_x,
     input wire [15:0] SW,
 
-    output wire CR,
-    output wire readn,
+    // output wire CR,
+    // output wire readn,
     output wire RDY,
 
     output wire seg_clk,
@@ -77,18 +77,63 @@ module Top(
     //     .doutb(douta)
     // );
 
-    wire [31:0] instruction;
-    wire [31:0] pc;
-    wire CPU_clk;
-    wire [31:0] r_data_A, r_data_B, result;
-    wire [31:0] display;
-    wire [15:0] SW_OK = SW;
-    wire [7:0] point;
+    wire [15:0] SW_OK;
+    wire [3:0] BTN_OK;
 
-    assign display = SW_OK[13] ? instruction : SW_OK[14] ? pc : SW_OK[1] ? {32{RSTN}} : clkdiv;
-    SSeg7_Dev U6(.clk(clk), .rst(~RSTN), .Start(clkdiv[20]), .SW0(1'b1), .flash(1'b0), .Hexs(display), .point(8'b0), .LES(8'b1), .seg_clk(seg_clk), .seg_sout(seg_sout), .SEG_PEN(seg_pen), .seg_clrn());
+    wire CPU_clk = SW_OK[2] ? clkdiv[24] : clkdiv[2];
+    wire [31:0] inst, PC, Addr_out, Data_in, Data_out;
+    wire [4:0] State;
+    wire mem_w, INT;
 
-    assign CPU_clk = SW_OK[7] ? clkdiv[31] : SW_OK[15] ? clkdiv[20] : clkdiv[25];
-    Multi_CPU MCPU(.clk(CPU_clk), .rst(~RSTN), .display(SW_OK[15:0]), .instruction(instruction), .pc_next(pc));
+    wire [31:0] dina, douta;
+    wire [9:0] addra;
+    wire wea;
 
+    wire [31:0] SegDisplay;
+
+    wire Key_ready;
+    wire [4:0] Key_out;
+    wire [3:0] Pulse;
+    wire rst;
+
+    wire counter_we, counter0_OUT, counter1_OUT, counter2_OUT;
+    wire GPIOF0;
+    wire [31:0] CPU2IO, counter_out;
+    wire [1:0] counter_ch;
+    wire [15:0] led_out; // dummy
+
+    // assign SegDisplay = SW_OK[1] ? Data_out : SW_OK[2] ? PC : SW_OK[3] ? inst : SW_OK[4] ? CPU2IO : clkdiv;
+
+    MUX8T1_32 dispMUX8T1(
+        .s(SW_OK[7:5]),
+        .o(SegDisplay),
+        .I0(CPU2IO),
+        .I1(clkdiv),
+        .I2(PC),
+        .I3(inst),
+        .I4(),
+        .I5(),
+        .I6(),
+        .I7()
+    );
+
+    wire CR, readn;
+
+    SAnti_jitter U9(
+        .RSTN(RSTN), .clk(clk), .Key_y(BTN_y), .Key_x(BTN_x), .SW(SW), .readn(readn), .CR(CR), .Key_out(Key_out), .Key_ready(Key_ready), .pulse_out(Pulse), .BTN_OK(BTN_OK), .SW_OK(SW_OK), .rst(rst)
+    );
+
+    SEnter_2_32 M4(.clk(clk), .Din(Key_out), .D_ready(Key_ready), .BTN(BTN_OK[2:0]), .Ctrl({SW_OK[7:5], SW_OK[15], SW_OK[0]}), .readn(readn), .Ai(), .Bi(), .blink());
+
+    Multi_CPU U1(.clk(CPU_clk), .reset(rst), .inst_out(inst), .INT(INT), .PC_out(PC), .mem_w(mem_w), .Addr_out(Addr_out), .Data_in(Data_in), .Data_out(Data_out), .state(State), .CPU_MIO(), .MIO_ready(1'b1));
+
+    MIO_BUS U4(.clk(clk), .rst(rst), .BTN(BTN_OK), .SW(SW_OK), .mem_w(mem_w), .addr_bus(Addr_out), .Cpu_data4bus(Data_in), .Cpu_data2bus(Data_out), .ram_data_in(dina), .data_ram_we(wea), .ram_addr(addra), .ram_data_out(douta), .counter_out(counter_out), .counter0_out(counter0_OUT), .counter1_out(counter1_OUT), .counter2_out(counter2_OUT), .counter_we(counter_we), .led_out(led_out), .GPIOf0000000_we(GPIOF0), .Peripheral_in(CPU2IO));
+
+    Counter_x U10(.clk(clk), .rst(rst), .clk0(clkdiv[8]), .clk1(clkdiv[9]), .clk2(clkdiv[11]), .counter_we(counter_we), .counter_val(CPU2IO), .counter_ch(counter_ch), .counter0_OUT(counter0_OUT), .counter1_OUT(counter1_OUT), .counter2_OUT(counter2_OUT), .counter_out(counter_out));
+
+    blk_mem_gen_0 U3(.addra(addra), .wea(wea), .dina(dina), .clka(clk), .douta(douta));
+
+    SSeg7_Dev U6(.clk(clk), .rst(rst), .Start(clkdiv[20]), .SW0(SW_OK[0]), .flash(1'b0), .Hexs(SegDisplay), .point(8'b0), .LES(8'b1), .seg_clk(seg_clk), .seg_sout(seg_sout), .SEG_PEN(seg_pen), .seg_clrn());
+
+    SPIO U7(.clk(clk), .rst(rst), .EN(GPIOF0), .Start(clkdiv[20]), .P_Data(CPU2IO), .counter_set(counter_ch), .LED_out(led_out));
 endmodule

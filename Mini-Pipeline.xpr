@@ -25,76 +25,63 @@
     <Option Name="IPUserFilesDir" Val="$PPRDIR/Mini-Pipeline.ip_user_files"/>
     <Option Name="IPStaticSourceDir" Val="$PPRDIR/Mini-Pipeline.ip_user_files/ipstatic"/>
     <Option Name="EnableBDX" Val="FALSE"/>
-    <Option Name="WTXSimLaunchSim" Val="10"/>
+    <Option Name="WTXSimLaunchSim" Val="19"/>
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
     <Option Name="WTIesLaunchSim" Val="0"/>
     <Option Name="WTVcsLaunchSim" Val="0"/>
     <Option Name="WTRivieraLaunchSim" Val="0"/>
     <Option Name="WTActivehdlLaunchSim" Val="0"/>
-    <Option Name="WTXSimExportSim" Val="3"/>
-    <Option Name="WTModelSimExportSim" Val="3"/>
-    <Option Name="WTQuestaExportSim" Val="3"/>
-    <Option Name="WTIesExportSim" Val="3"/>
-    <Option Name="WTVcsExportSim" Val="3"/>
-    <Option Name="WTRivieraExportSim" Val="3"/>
-    <Option Name="WTActivehdlExportSim" Val="3"/>
+    <Option Name="WTXSimExportSim" Val="5"/>
+    <Option Name="WTModelSimExportSim" Val="5"/>
+    <Option Name="WTQuestaExportSim" Val="5"/>
+    <Option Name="WTIesExportSim" Val="5"/>
+    <Option Name="WTVcsExportSim" Val="5"/>
+    <Option Name="WTRivieraExportSim" Val="5"/>
+    <Option Name="WTActivehdlExportSim" Val="5"/>
   </Configuration>
   <FileSets Version="1" Minor="31">
     <FileSet Name="sources_1" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
       <Filter Type="Srcs"/>
-      <File Path="$PSRCDIR/sources_1/imports/ex5_import/m_ctrl.v">
+      <File Path="$PSRCDIR/sources_1/new/Regs.v">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PSRCDIR/sources_1/imports/ex5_import/m_ctrl.v"/>
-          <Attr Name="ImportTime" Val="1504686393"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/ex5_import/ALU_ctrl.v">
+      <File Path="$PSRCDIR/sources_1/new/Reg32.v">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PSRCDIR/sources_1/imports/ex5_import/ALU_ctrl.v"/>
-          <Attr Name="ImportTime" Val="1504686386"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/ex5_import/regs.v">
+      <File Path="$PSRCDIR/sources_1/new/MUX.v">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../ex5_import/regs.v"/>
-          <Attr Name="ImportTime" Val="1494469530"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/ip/RAM/RAM.xco">
+      <File Path="$PSRCDIR/sources_1/new/ALU_Unit.v">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../ex5_import/ipcore_dir/RAM.xco"/>
-          <Attr Name="ImportTime" Val="1504615204"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/ex5_import/mux4_1.v">
+      <File Path="$PSRCDIR/sources_1/imports/LED_P2S_IO.v">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../ex5_import/mux4_1.v"/>
-          <Attr Name="ImportTime" Val="1496892292"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/ex5_import/alu.v">
+      <File Path="$PSRCDIR/sources_1/imports/LED_P2S.ngc">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../ex5_import/alu.v"/>
-          <Attr Name="ImportTime" Val="1495784770"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
       <File Path="$PSRCDIR/sources_1/new/font_table.v">
@@ -104,10 +91,15 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/ex5_import/Multi_CPU.v">
+      <File Path="$PSRCDIR/sources_1/new/M_datapath.v">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PSRCDIR/sources_1/imports/ex5_import/Multi_CPU.v"/>
-          <Attr Name="ImportTime" Val="1504686375"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/new/ctrl.v">
+        <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -144,6 +136,72 @@
           <Attr Name="UsedIn" Val="implementation"/>
         </FileInfo>
       </File>
+      <File Path="$PSRCDIR/sources_1/imports/SEnter_2_32_IO.v">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/imports/SEnter_2_32.ngc">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/imports/SAnti_jitter_IO.v">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/imports/SAnti_jitter.ngc">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/imports/MIO_BUS_IO.v">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/imports/MIO_BUS.ngc">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/imports/Counter_x.ngc">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/imports/Counter_3_IO.v">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/new/Multi_CPU.v">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/imports/SPIO_IO.v">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <File Path="$PSRCDIR/sources_1/new/Top.v">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -152,6 +210,12 @@
         </FileInfo>
       </File>
       <File Path="$PPRDIR/RAM.coe">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/test.coe">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -177,11 +241,33 @@
     </FileSet>
     <FileSet Name="sim_1" Type="SimulationSrcs" RelSrcDir="$PSRCDIR/sim_1">
       <Filter Type="Srcs"/>
+      <File Path="$PSRCDIR/sim_1/new/M_datapath_sim.v">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sim_1/new/Multi_CPU_sim.v">
+        <FileInfo>
+          <Attr Name="AutoDisabled" Val="1"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sim_1/new/ALU_Unit_sim.v">
+        <FileInfo>
+          <Attr Name="AutoDisabled" Val="1"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <Config>
         <Option Name="DesignMode" Val="RTL"/>
-        <Option Name="TopModule" Val="Top"/>
+        <Option Name="TopModule" Val="M_datapath_sim"/>
         <Option Name="TopLib" Val="xil_defaultlib"/>
-        <Option Name="TopAutoSet" Val="TRUE"/>
         <Option Name="TransportPathDelay" Val="0"/>
         <Option Name="TransportIntDelay" Val="0"/>
         <Option Name="SrcSet" Val="sources_1"/>
@@ -203,27 +289,28 @@
     <FileSet Name="blk_mem_gen_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/blk_mem_gen_0">
       <File Path="$PSRCDIR/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0.xci">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
-        <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="synth/blk_mem_gen_0.vhd"/>
-        <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="sim/blk_mem_gen_0.v"/>
-        <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="blk_mem_gen_v8_3_3/simulation/blk_mem_gen_v8_3.v"/>
-        <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="blk_mem_gen_v8_3_3/hdl/blk_mem_gen_v8_3.vhd"/>
-        <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="blk_mem_gen_v8_3_3/hdl/blk_mem_gen_v8_3_vhsyn_rfs.vhd"/>
-        <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="misc/blk_mem_gen_v8_3.vhd"/>
-        <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="doc/blk_mem_gen_v8_3_changelog.txt"/>
-        <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="blk_mem_gen_0_ooc.xdc"/>
-        <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="summary.log"/>
-        <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="blk_mem_gen_0.veo"/>
-        <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="blk_mem_gen_0.vho"/>
-        <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="blk_mem_gen_0.xml"/>
+        <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="blk_mem_gen_0.mif"/>
         <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="blk_mem_gen_0_sim_netlist.vhdl"/>
         <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="blk_mem_gen_0_sim_netlist.v"/>
         <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="blk_mem_gen_0_stub.vhdl"/>
         <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="blk_mem_gen_0_stub.v"/>
+        <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="blk_mem_gen_0.xml"/>
+        <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="blk_mem_gen_0_ooc.xdc"/>
+        <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="misc/blk_mem_gen_v8_3.vhd"/>
+        <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="doc/blk_mem_gen_v8_3_changelog.txt"/>
+        <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="blk_mem_gen_v8_3_3/simulation/blk_mem_gen_v8_3.v"/>
+        <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="blk_mem_gen_v8_3_3/hdl/blk_mem_gen_v8_3.vhd"/>
+        <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="sim/blk_mem_gen_0.v"/>
+        <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="synth/blk_mem_gen_0.vhd"/>
+        <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="blk_mem_gen_v8_3_3/hdl/blk_mem_gen_v8_3_vhsyn_rfs.vhd"/>
+        <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="summary.log"/>
+        <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="blk_mem_gen_0.veo"/>
+        <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="blk_mem_gen_0.vho"/>
+        <CompFileExtendedInfo CompFileName="blk_mem_gen_0.xci" FileRelPathName="z:/Mini-Pipeline/test.coe"/>
       </File>
       <Config>
         <Option Name="TopModule" Val="blk_mem_gen_0"/>
