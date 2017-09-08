@@ -93,6 +93,19 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+      <File Path="$PSRCDIR/sources_1/imports/SAnti_jitter_IO.v">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/imports/SAnti_jitter.ngc">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+        </FileInfo>
+      </File>
       <File Path="$PSRCDIR/sources_1/new/Multi_CPU.v">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -114,34 +127,17 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/ex5_import/SSeg7_Dev_IO.v">
+      <File Path="$PSRCDIR/sources_1/imports/SSeg7_Dev.ngc">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../ex5_import/SSeg7_Dev_IO.v"/>
-          <Attr Name="ImportTime" Val="1489632600"/>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PSRCDIR/sources_1/imports/ex5_import/SSeg7_Dev.ngc">
-        <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../ex5_import/SSeg7_Dev.ngc"/>
-          <Attr Name="ImportTime" Val="1489632596"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/SAnti_jitter_IO.v">
+      <File Path="$PSRCDIR/sources_1/imports/SSeg7_Dev_IO.v">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PSRCDIR/sources_1/imports/SAnti_jitter.ngc">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
         </FileInfo>
       </File>
       <File Path="$PSRCDIR/sources_1/new/Top.v">

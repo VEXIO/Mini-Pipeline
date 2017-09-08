@@ -88,7 +88,7 @@ module Top(
     blk_mem_gen_0 U3(.addra(addra), .wea(mem_w), .dina(dina), .clka(clk), .douta(douta));
 
     assign dina = Data_out;
-    assign addra = Addr_out;
+    assign addra = {2'b0, Addr_out[31:2]};
     assign Data_in = douta;
 
     SSeg7_Dev U6(.clk(clk), .rst(rst), .Start(clkdiv[20]), .SW0(SW_OK[0]), .flash(1'b0), .Hexs(SegDisplay), .point(8'b0), .LES(8'b1), .seg_clk(seg_clk), .seg_sout(seg_sout), .SEG_PEN(seg_pen), .seg_clrn());
