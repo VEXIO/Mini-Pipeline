@@ -33,11 +33,16 @@ module ctrl(
     wire s0,s1,s2,s3,s4,s5,s6,s7,s8,s9;
     parameter IF=4'b0000,ID=4'b0001,Mem_Ex=4'b0010,Mem_RD=4'b0011,LW_WB=4'b0100,Mem_W=4'b0101,R_Exc=4'b0110,R_WB=4'b0111,Beq_Exc=4'b1000,J=4'b1001,Error=4'b1111;
     `define signals{PCWrite,PCWriteCond,IorD,MemRead,MemWrite,IRWrite,MemtoReg,PCSource,ALUSrcA,ALUSrcB,RegWrite,RegDst,Branch,ALUop,CPU_MIO}
-    parameter value0=20'b10010100000010000000,value1=20'b00000000000110000000,
-             value2=20'b00000000001100000000,value3=20'b00110000000000000001,
-             value4=20'b00000001000001000000,value5=20'b00101000000000000001,
-             value6=20'b00000000001000000100,value7=20'b00000000000001010000,
-             value8=20'b01000000011000001010,value9=20'b10000000100000000000;
+    parameter value0=20'b10010100000010000000,
+              value1=20'b00000000000110000000,
+              value2=20'b00000000001100000000,
+              value3=20'b00110000000000000001,
+              value4=20'b00000001000001000000,
+              value5=20'b00101000000000000001,
+              value6=20'b00000000001000000100,
+              value7=20'b00000000000001010000,
+              value8=20'b01000000011000001010,
+              value9=20'b10000000100000000000;
     parameter AND=3'b000,OR=3'b001,ADD=3'b010,SUB=3'b110,NOR=3'b100,SLT=3'b111,XOR=3'b011,SRL=3'b101;
 
     assign OP=Inst_in[31:26];
