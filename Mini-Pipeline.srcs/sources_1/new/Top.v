@@ -58,8 +58,6 @@ module Top(
     wire [11:0] d_font = 12'hfff;
 
     wire texel_on;
-    text_display text_display(.row_addr(row_addr), .col_addr(col_addr), .o(texel_on));
-
     wire [11:0] d_in = texel_on ? d_font : d_background;
 
     vgac vgac (.vga_clk(clk25), .clrn(1'b1), .d_in(d_in), .row_addr(row_addr), .col_addr(col_addr), .rdn(rdn), .r(vga_red), .g(vga_green), .b(vga_blue), .hs(vga_h_sync), .vs(vga_v_sync));
@@ -85,11 +83,28 @@ module Top(
 
     Multi_CPU U1(.clk(CPU_clk), .reset(rst), .inst_out(inst), .INT(INT), .PC_out(PC), .mem_w(mem_w), .Addr_out(Addr_out), .Data_in(Data_in), .Data_out(Data_out), .state(State), .CPU_MIO(), .MIO_ready(1'b1));
 
-    blk_mem_gen_0 U3(.addra(addra), .wea(mem_w), .dina(dina), .clka(clk), .douta(douta));
+    wire dram_en, chram_en;
+    wire CHorD = Addr_out[31];
+    assign dram_en = mem_w & ~CHorD;
+    assign chram_en = mem_w & CHorD;
+
+    blk_mem_gen_0 data_ram(.addra(Addr_out[31:2]), .wea(dram_en), .dina(dina), .clka(clk), .douta(douta));
+
+    wire [6:0] scan_res;
+    wire [12:0] scan_dir;
+    wire [5:0] offset;
+    blk_mem_gen_1 char_ram(
+        .rsta(rst), .addra(Addr_out[30:0]), .wea(chram_en), .dina(dina), .clka(clk), .douta(),
+        .addrb(scan_dir), .web(1'b0), .dinb(7'h0), .clkb(clk), .doutb(scan_res)
+    );
 
     assign dina = Data_out;
-    assign addra = {2'b0, Addr_out[31:2]};
+    assign addra = CHorD ? {1'b0, Addr_out[30:0]} : {2'b0, Addr_out[31:2]};
     assign Data_in = douta;
+
+    addr_to_texel addr_to_texel(.row_addr(row_addr), .col_addr(col_addr), .scan_dir(scan_dir), .offset(offset));
+
+    texel_lookup(.ascii(scan_res), .offset(offset), .en(scan_res != 7'b0), .o(texel_on));
 
     SSeg7_Dev U6(.clk(clk), .rst(rst), .Start(clkdiv[20]), .SW0(SW_OK[0]), .flash(1'b0), .Hexs(SegDisplay), .point(8'b0), .LES(8'b1), .seg_clk(seg_clk), .seg_sout(seg_sout), .SEG_PEN(seg_pen), .seg_clrn());
 
