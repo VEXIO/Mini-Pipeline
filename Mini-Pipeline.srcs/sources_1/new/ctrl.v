@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-module ctrl(
+module ctrl_ppt(
     input clk,
     input reset,
     input [31:0]Inst_in,
