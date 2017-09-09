@@ -5,8 +5,10 @@ module addr_to_texel(
     output [12:0] scan_dir,
     output [5:0] offset
 );
-    wire [9:0] text_coord_aX = 10'd160, text_coord_bX = 10'd480;
-    wire [8:0] text_coord_aY = 9'd120, text_coord_bY = 9'd360;
+    // wire [9:0] text_coord_aX = 10'd160, text_coord_bX = 10'd480;
+    // wire [8:0] text_coord_aY = 9'd120, text_coord_bY = 9'd360;
+    wire [9:0] text_coord_aX = 10'd0, text_coord_bX = 10'd640;
+    wire [8:0] text_coord_aY = 9'd0, text_coord_bY = 9'd480;
 
     wire in_text_area = row_addr >= text_coord_aY
                      && row_addr < text_coord_bY
@@ -21,7 +23,7 @@ module addr_to_texel(
     wire [5:0] y_id = coord_y[8:3];
     wire [2:0] y_os = coord_y[2:0];
 
-    assign scan_dir = x_id + {y_id, 5'b0} + {y_id, 3'b0}; // x_id + y_id * 40
+    assign scan_dir = x_id + {y_id, 6'b0} + {y_id, 4'b0}; // x_id + y_id * 80
     assign offset = {y_os, x_os};
 endmodule
 
