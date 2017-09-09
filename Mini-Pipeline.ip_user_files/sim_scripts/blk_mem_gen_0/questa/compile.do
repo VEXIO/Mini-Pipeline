@@ -26,7 +26,7 @@ vlog -work blk_mem_gen_v8_3_3 -64 \
 "../../../ipstatic/blk_mem_gen_v8_3_3/simulation/blk_mem_gen_v8_3.v" \
 
 vlog -work xil_defaultlib -64 \
-"../../../../Mini-Pipeline.srcs/sources_1/ip/blk_mem_gen_0/sim/blk_mem_gen_0.v" \
+"../../../ip/blk_mem_gen_0/sim/blk_mem_gen_0.v" \
 
 vlog -work xil_defaultlib "glbl.v"
 

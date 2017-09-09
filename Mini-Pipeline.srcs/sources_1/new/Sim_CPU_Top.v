@@ -45,7 +45,7 @@ module Sim_Top(
     dummy_rom U4(.a(addra), .inst(rom_out));
 
     assign dina = Data_out;
-    assign data_in = addra >= 7'h10 ? douta : rom_out;
+    assign data_in = rom_out;
     assign addra = Addr_out;
     // assign Data_in = douta;
 endmodule

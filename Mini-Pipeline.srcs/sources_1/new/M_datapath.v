@@ -37,7 +37,7 @@ assign PC_4 = res;
 assign Branch_pc = ALU_Out;
 assign data_out = rdata_B;
 
-assign PC_CE = ((zero & Branch & PCWriteCond) | PCWrite) & MIO_ready;
+assign PC_CE = ((Branch & ~(zero ^ PCWriteCond)) | PCWrite) & MIO_ready;
 
 Reg32 IR(.clk(clk), .rst(reset), .CE(IRWrite), .D(data2CPU), .Q(Inst));
 Reg32 MDR(.clk(clk), .rst(1'b0), .CE(1'b1), .D(data2CPU), .Q(MDR_Q));
@@ -46,13 +46,13 @@ Reg32 ALUR(.clk(clk), .rst(1'b0), .CE(1'b1), .D(res), .Q(ALU_Out));
 
 Regs Regs(.clk(clk), .rst(reset), .L_S(RegWrite), .R_addr_A(Inst[25:21]), .R_addr_B(Inst[20:16]), .Wt_addr(Wt_addr), .Wt_data(Wt_data), .rdata_A(rdata_A), .rdata_B(rdata_B));
 
-MUX4T1_5 Wt_Addr_MUX4T1(.s(RegDst), .I0(Inst[20:16]), .I1(Inst[15:11]), .I2(), .I3(), .o(Wt_addr));
-MUX4T1_32 Wt_data_MUX4T1(.s(MemtoReg), .I0(ALU_Out), .I1(MDR_Q), .I2(), .I3(), .o(Wt_data));
+MUX4T1_5 Wt_Addr_MUX4T1(.s(RegDst), .I0(Inst[20:16]), .I1(Inst[15:11]), .I2(5'h1f), .I3(), .o(Wt_addr));
+MUX4T1_32 Wt_data_MUX4T1(.s(MemtoReg), .I0(ALU_Out), .I1(MDR_Q), .I2({Inst[15:0], 16'h0}), .I3(PC_Current), .o(Wt_data));
 
 MUX2T1_32 ALU_A_MUX2T1(.s(ALUSrcA), .I0(PC_Current), .I1(rdata_A), .o(ALU_Port_A));
 MUX4T1_32 ALU_B_MUX4T1(.s(ALUSrcB), .I0(rdata_B), .I1(32'h4), .I2(Imm_32), .I3(offset), .o(ALU_Port_B));
 
-MUX4T1_32 PC_Reg_MUX4T1(.s(PCSource), .I0(PC_4), .I1(Branch_pc), .I2(Jump_addr), .I3(), .o(PC_Reg_D));
+MUX4T1_32 PC_Reg_MUX4T1(.s(PCSource), .I0(PC_4), .I1(Branch_pc), .I2(Jump_addr), .I3(Branch_pc), .o(PC_Reg_D));
 
 MUX2T1_32 M_Addr_MUX2T1(.s(IorD), .I0(PC_Current), .I1(ALU_Out), .o(M_addr));
 
