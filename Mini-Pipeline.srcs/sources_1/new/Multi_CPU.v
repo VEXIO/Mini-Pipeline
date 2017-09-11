@@ -18,13 +18,15 @@ wire MemRead, MemWrite, IorD, IRWrite, RegWrite, ALUSrcA, PCWrite, PCWriteCond, 
 wire [1:0] RegDst, MemtoReg, ALUSrcB, PCSource;
 wire [2:0] ALU_operation;
 wire [31:0] Inst;
+wire [31:0] PC_Current, PC_Next, eret_addr;
+wire PC_CE;
+assign PC_out = PC_Current;
 
 assign mem_w = ~MemRead & MemWrite;
 assign inst_out = Inst;
 
-ctrl ctrl(.clk(clk), .reset(reset), .Inst_in(Inst), .zero(zero), .overflow(overflow), .MIO_ready(MIO_ready), .MemRead(MemRead), .MemWrite(MemWrite), .ALU_operation(ALU_operation), .state_out(state),
- .CPU_MIO(CPU_MIO), .IorD(IorD), .IRWrite(IRWrite), .RegDst(RegDst), .RegWrite(RegWrite), .MemtoReg(MemtoReg), .ALUSrcA(ALUSrcA), .ALUSrcB(ALUSrcB), .PCSource(PCSource), .PCWrite(PCWrite), .PCWriteCond(PCWriteCond), .Branch(Branch));
+ctrl ctrl(.clk(clk), .reset(reset), .Inst_in(Inst), .zero(zero), .overflow(overflow), .MIO_ready(MIO_ready), .INT(INT), .MemRead(MemRead), .MemWrite(MemWrite), .ALU_operation(ALU_operation), .state_out(state), .CPU_MIO(CPU_MIO), .IorD(IorD), .IRWrite(IRWrite), .RegDst(RegDst), .RegWrite(RegWrite), .MemtoReg(MemtoReg), .ALUSrcA(ALUSrcA), .ALUSrcB(ALUSrcB), .PCSource(PCSource), .PCWrite(PCWrite), .PCWriteCond(PCWriteCond), .Branch(Branch), .PC_Current(PC_Current), .PC_Next(PC_Next), .eret_addr(eret_addr), .PC_CE(PC_CE));
 
-M_datapath M_datapath(.clk(clk), .reset(reset), .MIO_ready(MIO_ready), .IorD(IorD), .IRWrite(IRWrite), .RegDst(RegDst), .RegWrite(RegWrite), .MemtoReg(MemtoReg), .ALUSrcA(ALUSrcA), .ALUSrcB(ALUSrcB), .PCSource(PCSource), .PCWrite(PCWrite), .PCWriteCond(PCWriteCond), .Branch(Branch), .ALU_operation(ALU_operation), .PC_Current(PC_out), .data2CPU(Data_in), .Inst(Inst), .data_out(Data_out), .M_addr(Addr_out), .zero(zero), .overflow(overflow));
+M_datapath M_datapath(.clk(clk), .reset(reset), .MIO_ready(MIO_ready), .IorD(IorD), .IRWrite(IRWrite), .RegDst(RegDst), .RegWrite(RegWrite), .MemtoReg(MemtoReg), .ALUSrcA(ALUSrcA), .ALUSrcB(ALUSrcB), .PCSource(PCSource), .PCWrite(PCWrite), .PCWriteCond(PCWriteCond), .Branch(Branch), .ALU_operation(ALU_operation), .PC_Current(PC_Current), .PC_Next(PC_Next), .eret_addr(eret_addr), .data2CPU(Data_in), .Inst(Inst), .data_out(Data_out), .M_addr(Addr_out), .zero(zero), .overflow(overflow), .PC_CE(PC_CE));
 
 endmodule

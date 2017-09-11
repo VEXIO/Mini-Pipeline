@@ -5,6 +5,10 @@ set_property -dict {PACKAGE_PIN W13 IOSTANDARD LVCMOS18} [get_ports RSTN]
 set_property -dict {PACKAGE_PIN AC18 IOSTANDARD LVDS} [get_ports clk_p]
 set_property -dict {PACKAGE_PIN AD18 IOSTANDARD LVDS} [get_ports clk_n]
 
+# keyboard
+set_property -dict {PACKAGE_PIN N18 IOSTANDARD LVCMOS33} [get_ports keyboard_clk]
+set_property -dict {PACKAGE_PIN M19 IOSTANDARD LVCMOS33} [get_ports keyboard_dat]
+
 # vga
 set_property -dict {PACKAGE_PIN T20 IOSTANDARD LVCMOS33 SLEW FAST} [get_ports {vga_blue[0]}]
 set_property -dict {PACKAGE_PIN R20 IOSTANDARD LVCMOS33 SLEW FAST} [get_ports {vga_blue[1]}]

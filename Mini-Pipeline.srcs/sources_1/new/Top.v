@@ -3,6 +3,10 @@
 module Top(
     input wire clk_p,
     input wire clk_n,
+
+    input wire keyboard_clk,
+    input wire keyboard_dat,
+
     output wire [3:0] vga_red,
     output wire [3:0] vga_green,
     output wire [3:0] vga_blue,
@@ -50,6 +54,20 @@ module Top(
     always @ (posedge clk)
         clkdiv <= clkdiv + 1'b1;
 
+    wire [15:0] SW_OK;
+    wire [3:0] BTN_OK;
+
+    wire Key_ready, CR, readn, rst;
+    wire [4:0] Key_out;
+    wire [3:0] Pulse;
+
+    SAnti_jitter U9(.RSTN(RSTN), .clk(clk), .Key_y(BTN_y), .Key_x(BTN_x), .SW(SW), .readn(readn), .CR(CR), .Key_out(Key_out), .Key_ready(Key_ready), .pulse_out(Pulse), .BTN_OK(BTN_OK), .SW_OK(SW_OK), .rst(rst));
+
+    wire keyboard_rdn, keyboard_ready, keyboard_overflow;
+    wire [7:0] keyboard_data;
+
+    assign keyboard_rdn = 1'b0;
+
     wire [8:0] row_addr;
     wire [9:0] col_addr;
     wire rdn;
@@ -62,9 +80,6 @@ module Top(
 
     vgac vgac (.vga_clk(clk25), .clrn(1'b1), .d_in(d_in), .row_addr(row_addr), .col_addr(col_addr), .rdn(rdn), .r(vga_red), .g(vga_green), .b(vga_blue), .hs(vga_h_sync), .vs(vga_v_sync));
 
-    wire [15:0] SW_OK;
-    wire [3:0] BTN_OK;
-
     wire CPU_clk = SW_OK[2] ? clkdiv[24] : clkdiv[2];
     wire [31:0] inst, PC, Addr_out, Data_in, Data_out;
     wire [4:0] State;
@@ -75,18 +90,18 @@ module Top(
 
     wire [31:0] SegDisplay;
 
-    wire Key_ready, CR, readn, rst;
-    wire [4:0] Key_out;
-    wire [3:0] Pulse;
-
-    SAnti_jitter U9(.RSTN(RSTN), .clk(clk), .Key_y(BTN_y), .Key_x(BTN_x), .SW(SW), .readn(readn), .CR(CR), .Key_out(Key_out), .Key_ready(Key_ready), .pulse_out(Pulse), .BTN_OK(BTN_OK), .SW_OK(SW_OK), .rst(rst));
+    assign INT = keyboard_ready;
 
     Multi_CPU U1(.clk(CPU_clk), .reset(rst), .inst_out(inst), .INT(INT), .PC_out(PC), .mem_w(mem_w), .Addr_out(Addr_out), .Data_in(Data_in), .Data_out(Data_out), .state(State), .CPU_MIO(), .MIO_ready(1'b1));
 
     wire dram_en, chram_en;
     wire CHorD = Addr_out[31];
-    assign dram_en = mem_w & ~CHorD;
+    wire KeyboardIO = Addr_out[30];
+    assign dram_en = mem_w & ~CHorD & ~KeyboardIO;
     assign chram_en = mem_w & CHorD;
+
+    wire [31:0] debug_keyboard;
+    ps2_keyboard (.clk(clk50), .reset(rst), .ps2_clk(keyboard_clk), .ps2_data(keyboard_dat), .rdn(KeyboardIO & Data_out[0]), .data(keyboard_data), .ready(keyboard_ready), .overflow(keyboard_overflow), .debug(debug_keyboard));
 
     blk_mem_gen_0 data_ram(.addra(Addr_out[31:2]), .wea(dram_en), .dina(dina), .clka(clk), .douta(douta));
 
@@ -100,7 +115,7 @@ module Top(
 
     assign dina = Data_out;
     assign addra = CHorD ? {1'b0, Addr_out[30:0]} : {2'b0, Addr_out[31:2]};
-    assign Data_in = douta;
+    assign Data_in = KeyboardIO ? {24'h0, keyboard_data} : douta;
 
     addr_to_texel addr_to_texel(.row_addr(row_addr), .col_addr(col_addr), .scan_dir(scan_dir), .offset(offset));
 
@@ -108,5 +123,5 @@ module Top(
 
     SSeg7_Dev U6(.clk(clk), .rst(rst), .Start(clkdiv[20]), .SW0(SW_OK[0]), .flash(1'b0), .Hexs(SegDisplay), .point(8'b0), .LES(8'b1), .seg_clk(seg_clk), .seg_sout(seg_sout), .SEG_PEN(seg_pen), .seg_clrn());
 
-    MUX8T1_32 dispMUX8T1(.s(SW_OK[7:5]), .o(SegDisplay), .I0(Data_out), .I1(clkdiv), .I2(PC), .I3(inst), .I4(), .I5(), .I6(), .I7());
+    MUX8T1_32 dispMUX8T1(.s(SW_OK[7:5]), .o(SegDisplay), .I0(Data_out), .I1(Addr_out), .I2(PC), .I3(inst), .I4({keyboard_data, {8{keyboard_overflow}}, {8{KeyboardIO & Data_out[0]}}, {8{keyboard_ready}}}), .I5(debug_keyboard), .I6(), .I7());
 endmodule

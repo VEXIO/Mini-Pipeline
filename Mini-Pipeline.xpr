@@ -27,20 +27,20 @@
     <Option Name="IPUserFilesDir" Val="$PPRDIR/Mini-Pipeline.ip_user_files"/>
     <Option Name="IPStaticSourceDir" Val="$PPRDIR/Mini-Pipeline.ip_user_files/ipstatic"/>
     <Option Name="EnableBDX" Val="FALSE"/>
-    <Option Name="WTXSimLaunchSim" Val="149"/>
+    <Option Name="WTXSimLaunchSim" Val="152"/>
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
     <Option Name="WTIesLaunchSim" Val="0"/>
     <Option Name="WTVcsLaunchSim" Val="0"/>
     <Option Name="WTRivieraLaunchSim" Val="0"/>
     <Option Name="WTActivehdlLaunchSim" Val="0"/>
-    <Option Name="WTXSimExportSim" Val="14"/>
-    <Option Name="WTModelSimExportSim" Val="14"/>
-    <Option Name="WTQuestaExportSim" Val="14"/>
-    <Option Name="WTIesExportSim" Val="14"/>
-    <Option Name="WTVcsExportSim" Val="14"/>
-    <Option Name="WTRivieraExportSim" Val="14"/>
-    <Option Name="WTActivehdlExportSim" Val="14"/>
+    <Option Name="WTXSimExportSim" Val="15"/>
+    <Option Name="WTModelSimExportSim" Val="15"/>
+    <Option Name="WTQuestaExportSim" Val="15"/>
+    <Option Name="WTIesExportSim" Val="15"/>
+    <Option Name="WTVcsExportSim" Val="15"/>
+    <Option Name="WTRivieraExportSim" Val="15"/>
+    <Option Name="WTActivehdlExportSim" Val="15"/>
   </Configuration>
   <FileSets Version="1" Minor="31">
     <FileSet Name="sources_1" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
@@ -87,13 +87,6 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/new/ctrl.v">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
       <File Path="$PSRCDIR/sources_1/imports/SSeg7_Dev_IO.v">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -107,7 +100,7 @@
           <Attr Name="UsedIn" Val="implementation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/new/text_display.v">
+      <File Path="$PSRCDIR/sources_1/new/vga_decoder.v">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>

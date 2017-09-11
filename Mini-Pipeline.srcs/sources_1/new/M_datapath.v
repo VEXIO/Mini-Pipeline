@@ -16,11 +16,15 @@ module M_datapath(
     input Branch,
     input [2:0] ALU_operation,
     input [31:0] data2CPU,
+    input eret_op,
+    input [31:0] eret_addr,
     output [31:0] PC_Current,
+    output [31:0] PC_Next,
     output [31:0] Inst,
     output [31:0] data_out,
     output [31:0] M_addr,
     output zero,
+    output PC_CE,
     output overflow
 );
 
@@ -28,7 +32,6 @@ wire [31:0] MDR_Q, Wt_data, rdata_A, rdata_B, res, ALU_Port_A, ALU_Port_B, ALU_O
 wire [31:0] Imm_32, Jump_addr, offset, PC_4, Branch_pc;
 wire [15:0] Imm_16 = Inst[15:0];
 wire [4:0] Wt_addr;
-wire PC_CE;
 
 assign Imm_32 = {{16{Imm_16[15]}}, Imm_16};
 assign offset = {Imm_32[29:0], 2'b0};
@@ -36,6 +39,7 @@ assign Jump_addr = {PC_Current[31:28], Inst[25:0], 2'b0};
 assign PC_4 = res;
 assign Branch_pc = ALU_Out;
 assign data_out = rdata_B;
+assign PC_Next = PC_Reg_D;
 
 assign PC_CE = ((Branch & ~(zero ^ PCWriteCond)) | PCWrite) & MIO_ready;
 
@@ -52,7 +56,7 @@ MUX4T1_32 Wt_data_MUX4T1(.s(MemtoReg), .I0(ALU_Out), .I1(MDR_Q), .I2({Inst[15:0]
 MUX2T1_32 ALU_A_MUX2T1(.s(ALUSrcA), .I0(PC_Current), .I1(rdata_A), .o(ALU_Port_A));
 MUX4T1_32 ALU_B_MUX4T1(.s(ALUSrcB), .I0(rdata_B), .I1(32'h4), .I2(Imm_32), .I3(offset), .o(ALU_Port_B));
 
-MUX4T1_32 PC_Reg_MUX4T1(.s(PCSource), .I0(PC_4), .I1(Branch_pc), .I2(Jump_addr), .I3(Branch_pc), .o(PC_Reg_D));
+MUX4T1_32 PC_Reg_MUX4T1(.s(PCSource), .I0(PC_4), .I1(Branch_pc), .I2(Jump_addr), .I3(eret_addr), .o(PC_Reg_D));
 
 MUX2T1_32 M_Addr_MUX2T1(.s(IorD), .I0(PC_Current), .I1(ALU_Out), .o(M_addr));
 

@@ -8,7 +8,7 @@ module ALU_Unit(
     output reg overflow
 );
 
-    wire [31:0] res_and, res_or, res_nor, res_slt, res_xor, res_srl, nB;
+    wire [31:0] res_and, res_or, res_nor, res_slt, res_xor, res_srl, res_sll, res_sra, nB;
     wire [32:0] res_add, res_sub; // one more bit for checking overflow or underflow
 
     wire add_overflow, sub_overflow;
@@ -31,7 +31,9 @@ module ALU_Unit(
     assign res_nor = ~res_or;
     assign res_slt = (A < B) ? ONE : ZERO;
     assign res_xor = A^B;
-    assign res_srl = B>>1;
+    assign res_srl = B >> A;
+    assign res_sll = B << A;
+    assign res_sra = $signed(B) >>> A;
 
     assign add_overflow = res_add[WIDTH: WIDTH-1] == 2'b01 || res_add[WIDTH: WIDTH-1] == 2'b10;
     assign sub_overflow = res_sub[WIDTH: WIDTH-1] == 2'b01 || res_sub[WIDTH: WIDTH-1] == 2'b10;

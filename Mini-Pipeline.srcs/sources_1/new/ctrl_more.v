@@ -2,13 +2,17 @@
 module ctrl(
     input clk,
     input reset,
-    input [31:0]Inst_in,
+    input [31:0] Inst_in,
+    input [31:0] PC_Current, PC_Next,
     input zero,
     input overflow,
+    input INT,
     input MIO_ready,
+    input PC_CE,
     output reg MemRead,
     output reg MemWrite,
     output reg [2:0] ALU_operation,
+    output reg [31:0] eret_addr,
     output [4:0] state_out,
 
     output reg CPU_MIO,
@@ -19,7 +23,7 @@ module ctrl(
     output reg [1:0] MemtoReg,
     output reg ALUSrcA,
     output reg [1:0] ALUSrcB,
-    output reg [1:0] PCSource,
+    output wire [1:0] PCSource,
     output reg PCWrite,
     output reg PCWriteCond,
     output reg Branch
@@ -30,7 +34,10 @@ module ctrl(
     wire [5:0] OP = Inst_in[31:26];
     wire [5:0] Fun = Inst_in[5:0];
 
+    reg [31:0] EPC;
+
     wire RType = ~|OP;
+    wire ERET = Inst_in == 32'h42000018;
     wire IType = OP[5:3] == 3'b001;
     wire LUI = IType & (OP[2:0] == 3'b111);
     wire JR = RType & (Fun == 6'b001000);
@@ -47,8 +54,14 @@ module ctrl(
     reg [2:0] ALUop;
     assign state_out = {next_state, 1'b0};
 
+    reg [1:0] PCSource_wire;
+
+    reg eret_source = 1'b0;
+
+    assign PCSource = eret_source ? 2'b11 : PCSource_wire;
+
     always @ (*) begin
-        {PCWrite, PCWriteCond, IorD, MemRead, MemWrite, IRWrite, MemtoReg, PCSource, ALUSrcA, ALUSrcB, RegWrite, RegDst, Branch, ALUop, CPU_MIO} = 20'h0;
+        {PCWrite, PCWriteCond, IorD, MemRead, MemWrite, IRWrite, MemtoReg, PCSource_wire, ALUSrcA, ALUSrcB, RegWrite, RegDst, Branch, ALUop, CPU_MIO} = 20'h0;
 
         case (state)
             IF: begin
@@ -82,15 +95,15 @@ module ctrl(
                         ALUSrcA = 1;
                         ALUop = 2'b01;
                         PCWriteCond = IBEQ;
-                        PCSource = 2'b01;
+                        PCSource_wire = 2'b01;
                         Branch = 1;
                     end
                     4'bxxx1: begin
                         PCWrite = 1;
                         case ({Jump, Jal, JR, Jalr})
-                            4'b1000: PCSource = 2'b10;
+                            4'b1000: PCSource_wire = 2'b10;
                             4'b0100: begin
-                                PCSource = 2'b10;
+                                PCSource_wire = 2'b10;
                                 MemtoReg = 2'b11;
                                 RegDst = 2'b10;
                                 RegWrite = 1;
@@ -139,9 +152,29 @@ module ctrl(
         endcase
     end
 
-    always @ (posedge clk or posedge reset) begin
-        if (reset) state <= IF;
-        else state <= next_state;
+    reg ie = 1; // interrupt enable
+
+    always @ (negedge clk or posedge reset) begin
+        eret_source = 0;
+        if (reset) begin
+            state <= IF;
+            ie <= 1'b1;
+        end
+        else if (ERET) begin
+            eret_source = 1;
+            eret_addr <= EPC;
+            state <= IF;
+            ie <= 1'b1;
+        end
+        else begin
+            if (INT && ie && next_state == IF) begin
+                eret_source = 1;
+                EPC <= PC_CE ? PC_Current : PC_Next;
+                eret_addr <= 32'h00000008;
+                ie <= 1'b0;
+            end
+            state <= next_state;
+        end
     end
 
     always @ (*) begin

@@ -1,26 +1,6 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company:
-// Engineer:
-//
-// Create Date: 2017/09/05 10:03:34
-// Design Name:
-// Module Name: ps2_keyboard
-// Project Name:
-// Target Devices:
-// Tool Versions:
-// Description:
-//
-// Dependencies:
-//
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-//
-//////////////////////////////////////////////////////////////////////////////////
-
-module ps2_keyboard (clk, clrn, ps2_clk, ps2_data, rdn, data, ready, overflow);
-    input clk, clrn; // 50 MHz
+module ps2_keyboard (clk, reset, ps2_clk, ps2_data, rdn, data, ready, overflow, debug);
+    input clk, reset; // 50 MHz
     input ps2_clk; // ps2 clock
     input ps2_data; // ps2 data
     input rdn; // read, active low
@@ -33,13 +13,15 @@ module ps2_keyboard (clk, clrn, ps2_clk, ps2_data, rdn, data, ready, overflow);
     reg [2:0] w_ptr, r_ptr; // fifo w/r pointers
     reg [1:0] ps2_clk_sync; // for detecting falling edge
 
+    output [31:0] debug;
+    assign debug = {1'b0, w_ptr, 1'b0, r_ptr, fifo[r_ptr], 6'b0, buffer};
     always @ (posedge clk) begin
         ps2_clk_sync <= {ps2_clk_sync[0], ps2_clk};
     end
     wire sampling = ps2_clk_sync[1] & ~ps2_clk_sync[0]; // had a falling edge
 
     always @ (posedge clk) begin
-        if (!clrn) begin // on reset
+        if (reset) begin // on reset
             count <= 0; // clear count
             w_ptr <= 0; // clear w_ptr
             r_ptr <= 0; // clear r_ptr
