@@ -13,6 +13,7 @@ module ctrl(
     output reg MemWrite,
     output reg [2:0] ALU_operation,
     output reg [31:0] eret_addr,
+    output [31:0] debug,
     output [4:0] state_out,
 
     output reg CPU_MIO,
@@ -74,11 +75,10 @@ module ctrl(
             end
             ID: begin
                 ALUSrcB = 2'b11;
-
                 next_state = EXE;
             end
             EXE: begin
-                casex({LS, RType | IType, IBEQ | IBNE, Jump | Jal | JR | Jalr})
+                casex({LS, RType | IType, IBEQ | IBNE, Jump | Jal | JR | Jalr | ERET})
                     4'b1xxx: begin
                         ALUSrcA = 1;
                         ALUSrcB = 2'b10;
@@ -114,6 +114,9 @@ module ctrl(
                                 MemtoReg = 2'b11;
                                 RegDst = 2'b10;
                                 RegWrite = 1;
+                            end
+                            default: begin
+                                PCSource_wire = 2'b11;
                             end
                         endcase
                     end
@@ -154,26 +157,31 @@ module ctrl(
 
     reg ie = 1; // interrupt enable
 
-    always @ (negedge clk or posedge reset) begin
-        eret_source = 0;
+    always @ (posedge clk or posedge reset) begin
+        if (reset) state <= IF;
+        else state <= next_state;
+    end
+
+    assign debug = {{4{eret_source}}, {1'b0, {next_state}}, {4{INT}}, {4{ie}}, {16{ERET}}};
+
+    always @ (posedge clk or posedge reset) begin
         if (reset) begin
-            state <= IF;
             ie <= 1'b1;
+            eret_source <= 0;
         end
         else if (ERET) begin
-            eret_source = 1;
+            eret_source <= 0;
             eret_addr <= EPC;
-            state <= IF;
             ie <= 1'b1;
         end
+        else if (next_state == IF && INT && ie) begin // !!!! ie not judged
+            eret_source <= 1;
+            EPC <= PC_CE ? PC_Current : PC_Next;
+            eret_addr <= 32'h00000008;
+            ie <= 1'b0;
+        end
         else begin
-            if (INT && ie && next_state == IF) begin
-                eret_source = 1;
-                EPC <= PC_CE ? PC_Current : PC_Next;
-                eret_addr <= 32'h00000008;
-                ie <= 1'b0;
-            end
-            state <= next_state;
+            eret_source <= 0;
         end
     end
 

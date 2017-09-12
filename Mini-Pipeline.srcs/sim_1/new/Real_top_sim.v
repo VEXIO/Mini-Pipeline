@@ -1,67 +1,42 @@
 `timescale 1ns / 1ps
 
-module Top(
-    input wire clk_p,
-    input wire clk_n,
+module Real_Top_Sim();
+    reg clk;
+    wire keyboard_clk;
+    reg keyboard_dat;
+    reg rst;
+    reg [15:0] SW;
 
-    input wire keyboard_clk,
-    input wire keyboard_dat,
+    wire [3:0] vga_red;
+    wire [3:0] vga_green;
+    wire [3:0] vga_blue;
+    wire vga_h_sync;
+    wire vga_v_sync;
 
-    output wire [3:0] vga_red,
-    output wire [3:0] vga_green,
-    output wire [3:0] vga_blue,
-    output wire vga_h_sync,
-    output wire vga_v_sync,
-    input wire RSTN,
+    initial begin
+        clk = 0;
+        keyboard_dat = 0;
+        rst = 1;
+        SW = 0;
 
-    input wire [3:0] BTN_y,
-    inout wire [4:0] BTN_x,
-    input wire [15:0] SW,
-
-    // output wire CR,
-    // output wire readn,
-    output wire RDY,
-
-    output wire seg_clk,
-    output wire seg_sout,
-    output wire seg_pen
-);
-
-    wire clk;
-    IBUFGDS #(
-        .DIFF_TERM("FALSE"), // Differential Termination
-        .IBUF_LOW_PWR("TRUE"), // Low power="TRUE", Highest performance="FALSE"
-        .IOSTANDARD("DEFAULT") // Specifies the I/O standard for this buffer
-    ) IBUFGDS_inst (
-        .O(clk),  // Clock buffer output
-        .I(clk_p),  // Diff_p clock buffer input
-        .IB(clk_n) // Diff_n clock buffer input
-    );
+        #20;
+        rst <= 0;
+    end
 
     wire clk200Rev, clk100, clk50, clk25;
-
-    clk_wiz_0 clk_divider_0(
-        .clk_in1(clk),
-        .clk_out1(clk200Rev),
-        .clk_out2(clk100),
-        .clk_out3(clk50),
-        .clk_out4(clk25),
-        .reset(1'b0),
-        .locked()
-    );
 
     reg [31:0] clkdiv = 32'b0;
     always @ (posedge clk)
         clkdiv <= clkdiv + 1'b1;
 
-    wire [15:0] SW_OK;
+    assign clk200Rev = ~clk;
+    assign clk100 = clkdiv[1];
+    assign clk50 = clkdiv[2];
+    assign clk25 = clkdiv[3];
+    assign keyboard_clk = clk50;
+
+    wire [15:0] SW_OK = SW;
     wire [3:0] BTN_OK;
-
-    wire Key_ready, CR, readn, rst;
-    wire [4:0] Key_out;
-    wire [3:0] Pulse;
-
-    SAnti_jitter U9(.RSTN(RSTN), .clk(clk), .Key_y(BTN_y), .Key_x(BTN_x), .SW(SW), .readn(readn), .CR(CR), .Key_out(Key_out), .Key_ready(Key_ready), .pulse_out(Pulse), .BTN_OK(BTN_OK), .SW_OK(SW_OK), .rst(rst));
 
     wire keyboard_rdn, keyboard_ready, keyboard_overflow;
     wire [7:0] keyboard_data;
@@ -80,7 +55,7 @@ module Top(
 
     vgac vgac (.vga_clk(clk25), .clrn(1'b1), .d_in(d_in), .row_addr(row_addr), .col_addr(col_addr), .rdn(rdn), .r(vga_red), .g(vga_green), .b(vga_blue), .hs(vga_h_sync), .vs(vga_v_sync));
 
-    wire CPU_clk = SW_OK[2] ? clkdiv[24] : clkdiv[2];
+    wire CPU_clk = clk;
     wire [31:0] inst, PC, Addr_out, Data_in, Data_out;
     wire [4:0] State;
     wire mem_w, INT;
@@ -118,7 +93,13 @@ module Top(
 
     texel_lookup texel_lookup(.ascii(scan_res), .offset(offset), .en(scan_res != 7'b0), .o(texel_on));
 
-    SSeg7_Dev U6(.clk(clk), .rst(rst), .Start(clkdiv[20]), .SW0(SW_OK[0]), .flash(1'b0), .Hexs(SegDisplay), .point(8'b0), .LES(8'b1), .seg_clk(seg_clk), .seg_sout(seg_sout), .SEG_PEN(seg_pen), .seg_clrn());
-
     MUX8T1_32 dispMUX8T1(.s(SW_OK[7:5]), .o(SegDisplay), .I0(Data_out), .I1(Addr_out), .I2(PC), .I3(inst), .I4({keyboard_data, {8{keyboard_overflow}}, {8{KeyboardIO & Data_out[0]}}, {8{keyboard_ready}}}), .I5(debug_keyboard), .I6(eret_out), .I7(ctrl_debug));
+
+
+    integer i;
+    always @ (*) begin
+        for (i=0; i<10; i=i+1) begin
+            clk <= #5 ~clk;
+        end
+    end
 endmodule
