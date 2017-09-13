@@ -64,7 +64,7 @@ module Top(
     SAnti_jitter U9(.RSTN(RSTN), .clk(clk), .Key_y(BTN_y), .Key_x(BTN_x), .SW(SW), .readn(readn), .CR(CR), .Key_out(Key_out), .Key_ready(Key_ready), .pulse_out(Pulse), .BTN_OK(BTN_OK), .SW_OK(SW_OK), .rst(rst));
 
     wire keyboard_rdn, keyboard_ready, keyboard_overflow;
-    wire [7:0] keyboard_data;
+    wire [7:0] keyboard_data, keyboard_ascii;
 
     assign keyboard_rdn = 1'b0;
 
@@ -103,16 +103,18 @@ module Top(
 
     ps2_keyboard ps2_keyboard(.clk(clk50), .reset(rst), .ps2_clk(keyboard_clk), .ps2_data(keyboard_dat), .rdn(~(KeyboardIO & mem_w)), .data(keyboard_data), .ready(keyboard_ready), .overflow(keyboard_overflow), .debug(debug_keyboard));
 
+    scan_decoder scan_decoder(.scan_code(keyboard_data), .ascii(keyboard_ascii));
+
     blk_mem_gen_0 data_ram(.addra(Addr_out[31:2]), .wea(dram_en), .dina(dina), .clka(clk), .douta(douta));
 
     wire [6:0] scan_res;
     wire [12:0] scan_dir;
     wire [5:0] offset;
-    blk_mem_gen_1 char_ram(.rsta(rst), .addra(Addr_out[30:0]), .wea(chram_en), .dina(dina), .clka(clk), .douta(), .addrb(scan_dir), .web(1'b0), .dinb(7'h0), .clkb(clk), .doutb(scan_res));
+    blk_mem_gen_1 char_ram(.rsta(rst), .addra(Addr_out[30:0]), .wea(chram_en), .dina(dina), .clka(clk), .douta(), .rstb(rst), .addrb(scan_dir), .web(1'b0), .dinb(7'h0), .clkb(clk), .doutb(scan_res));
 
     assign dina = Data_out;
     assign addra = CHorD ? {1'b0, Addr_out[30:0]} : {2'b0, Addr_out[31:2]};
-    assign Data_in = KeyboardIO ? {24'h0, keyboard_data} : douta;
+    assign Data_in = KeyboardIO ? {24'h0, keyboard_ascii} : douta;
 
     addr_to_texel addr_to_texel(.row_addr(row_addr), .col_addr(col_addr), .scan_dir(scan_dir), .offset(offset));
 

@@ -1,7 +1,7 @@
 // Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2016.2 (win64) Build 1577090 Thu Jun  2 16:32:40 MDT 2016
-// Date        : Mon Sep 11 14:57:21 2017
+// Date        : Wed Sep 13 15:12:32 2017
 // Host        : DESKTOP-DM3G5QT running 64-bit major release  (build 9200)
 // Command     : write_verilog -force -mode funcsim
 //               Z:/Mini-Pipeline/Mini-Pipeline.srcs/sources_1/ip/blk_mem_gen_1/blk_mem_gen_1_sim_netlist.v
@@ -22,6 +22,7 @@ module blk_mem_gen_1
     dina,
     douta,
     clkb,
+    rstb,
     web,
     addrb,
     dinb,
@@ -33,6 +34,7 @@ module blk_mem_gen_1
   (* x_interface_info = "xilinx.com:interface:bram:1.0 BRAM_PORTA DIN" *) input [6:0]dina;
   (* x_interface_info = "xilinx.com:interface:bram:1.0 BRAM_PORTA DOUT" *) output [6:0]douta;
   (* x_interface_info = "xilinx.com:interface:bram:1.0 BRAM_PORTB CLK" *) input clkb;
+  (* x_interface_info = "xilinx.com:interface:bram:1.0 BRAM_PORTB RST" *) input rstb;
   (* x_interface_info = "xilinx.com:interface:bram:1.0 BRAM_PORTB WE" *) input [0:0]web;
   (* x_interface_info = "xilinx.com:interface:bram:1.0 BRAM_PORTB ADDR" *) input [12:0]addrb;
   (* x_interface_info = "xilinx.com:interface:bram:1.0 BRAM_PORTB DIN" *) input [6:0]dinb;
@@ -47,6 +49,7 @@ module blk_mem_gen_1
   wire [6:0]douta;
   wire [6:0]doutb;
   wire rsta;
+  wire rstb;
   wire [0:0]wea;
   wire [0:0]web;
   wire NLW_U0_dbiterr_UNCONNECTED;
@@ -105,7 +108,7 @@ module blk_mem_gen_1
   (* C_HAS_REGCEA = "0" *) 
   (* C_HAS_REGCEB = "0" *) 
   (* C_HAS_RSTA = "1" *) 
-  (* C_HAS_RSTB = "0" *) 
+  (* C_HAS_RSTB = "1" *) 
   (* C_HAS_SOFTECC_INPUT_REGS_A = "0" *) 
   (* C_HAS_SOFTECC_OUTPUT_REGS_B = "0" *) 
   (* C_INITA_VAL = "0" *) 
@@ -121,7 +124,7 @@ module blk_mem_gen_1
   (* C_READ_DEPTH_B = "4800" *) 
   (* C_READ_WIDTH_A = "7" *) 
   (* C_READ_WIDTH_B = "7" *) 
-  (* C_RSTRAM_A = "0" *) 
+  (* C_RSTRAM_A = "1" *) 
   (* C_RSTRAM_B = "0" *) 
   (* C_RST_PRIORITY_A = "CE" *) 
   (* C_RST_PRIORITY_B = "CE" *) 
@@ -165,7 +168,7 @@ module blk_mem_gen_1
         .regceb(1'b0),
         .rsta(rsta),
         .rsta_busy(NLW_U0_rsta_busy_UNCONNECTED),
-        .rstb(1'b0),
+        .rstb(rstb),
         .rstb_busy(NLW_U0_rstb_busy_UNCONNECTED),
         .s_aclk(1'b0),
         .s_aresetn(1'b0),
@@ -219,6 +222,7 @@ module blk_mem_gen_1_blk_mem_gen_generic_cstr
     clka,
     clkb,
     rsta,
+    rstb,
     dina,
     dinb,
     wea,
@@ -230,6 +234,7 @@ module blk_mem_gen_1_blk_mem_gen_generic_cstr
   input clka;
   input clkb;
   input rsta;
+  input rstb;
   input [6:0]dina;
   input [6:0]dinb;
   input [0:0]wea;
@@ -260,6 +265,7 @@ module blk_mem_gen_1_blk_mem_gen_generic_cstr
   wire \ramloop[1].ram.r_n_8 ;
   wire \ramloop[1].ram.r_n_9 ;
   wire rsta;
+  wire rstb;
   wire [0:0]wea;
   wire [0:0]web;
 
@@ -285,6 +291,7 @@ module blk_mem_gen_1_blk_mem_gen_generic_cstr
         .\douta[6] (ram_douta),
         .\doutb[6] (ram_doutb),
         .rsta(rsta),
+        .rstb(rstb),
         .wea(wea),
         .web(web));
   blk_mem_gen_1_blk_mem_gen_prim_width__parameterized0 \ramloop[1].ram.r 
@@ -297,6 +304,7 @@ module blk_mem_gen_1_blk_mem_gen_generic_cstr
         .dina(dina),
         .dinb(dinb),
         .rsta(rsta),
+        .rstb(rstb),
         .wea(wea),
         .web(web));
 endmodule
@@ -396,7 +404,7 @@ module blk_mem_gen_1_blk_mem_gen_mux
         .R(1'b0));
   FDRE #(
     .INIT(1'b0)) 
-    \no_softecc_sel_reg.ce_pri.sel_pipe_reg[0] 
+    \no_softecc_splrstbeh_sel_reg.ce_pri.sel_pipe_reg[0] 
        (.C(clka),
         .CE(1'b1),
         .D(addra[0]),
@@ -404,7 +412,7 @@ module blk_mem_gen_1_blk_mem_gen_mux
         .R(1'b0));
   FDRE #(
     .INIT(1'b0)) 
-    \no_softecc_sel_reg.ce_pri.sel_pipe_reg[1] 
+    \no_softecc_splrstbeh_sel_reg.ce_pri.sel_pipe_reg[1] 
        (.C(clka),
         .CE(1'b1),
         .D(addra[1]),
@@ -531,6 +539,7 @@ module blk_mem_gen_1_blk_mem_gen_prim_width
     clka,
     clkb,
     rsta,
+    rstb,
     addra,
     addrb,
     dina,
@@ -542,6 +551,7 @@ module blk_mem_gen_1_blk_mem_gen_prim_width
   input clka;
   input clkb;
   input rsta;
+  input rstb;
   input [12:0]addra;
   input [12:0]addrb;
   input [6:0]dina;
@@ -558,6 +568,7 @@ module blk_mem_gen_1_blk_mem_gen_prim_width
   wire [6:0]\douta[6] ;
   wire [6:0]\doutb[6] ;
   wire rsta;
+  wire rstb;
   wire [0:0]wea;
   wire [0:0]web;
 
@@ -571,6 +582,7 @@ module blk_mem_gen_1_blk_mem_gen_prim_width
         .\douta[6] (\douta[6] ),
         .\doutb[6] (\doutb[6] ),
         .rsta(rsta),
+        .rstb(rstb),
         .wea(wea),
         .web(web));
 endmodule
@@ -582,6 +594,7 @@ module blk_mem_gen_1_blk_mem_gen_prim_width__parameterized0
     clka,
     clkb,
     rsta,
+    rstb,
     addra,
     addrb,
     dina,
@@ -593,6 +606,7 @@ module blk_mem_gen_1_blk_mem_gen_prim_width__parameterized0
   input clka;
   input clkb;
   input rsta;
+  input rstb;
   input [12:0]addra;
   input [12:0]addrb;
   input [6:0]dina;
@@ -609,6 +623,7 @@ module blk_mem_gen_1_blk_mem_gen_prim_width__parameterized0
   wire [6:0]dina;
   wire [6:0]dinb;
   wire rsta;
+  wire rstb;
   wire [0:0]wea;
   wire [0:0]web;
 
@@ -622,6 +637,7 @@ module blk_mem_gen_1_blk_mem_gen_prim_width__parameterized0
         .dina(dina),
         .dinb(dinb),
         .rsta(rsta),
+        .rstb(rstb),
         .wea(wea),
         .web(web));
 endmodule
@@ -633,6 +649,7 @@ module blk_mem_gen_1_blk_mem_gen_prim_wrapper
     clka,
     clkb,
     rsta,
+    rstb,
     addra,
     addrb,
     dina,
@@ -644,6 +661,7 @@ module blk_mem_gen_1_blk_mem_gen_prim_wrapper
   input clka;
   input clkb;
   input rsta;
+  input rstb;
   input [12:0]addra;
   input [12:0]addrb;
   input [6:0]dina;
@@ -666,6 +684,7 @@ module blk_mem_gen_1_blk_mem_gen_prim_wrapper
   wire [6:0]\douta[6] ;
   wire [6:0]\doutb[6] ;
   wire rsta;
+  wire rstb;
   wire [0:0]wea;
   wire [0:0]web;
   wire \NLW_DEVICE_7SERIES.NO_BMM_INFO.TRUE_DP.SIMPLE_PRIM36.ram_CASCADEOUTA_UNCONNECTED ;
@@ -883,10 +902,10 @@ module blk_mem_gen_1_blk_mem_gen_prim_wrapper
         .RDADDRECC(\NLW_DEVICE_7SERIES.NO_BMM_INFO.TRUE_DP.SIMPLE_PRIM36.ram_RDADDRECC_UNCONNECTED [8:0]),
         .REGCEAREGCE(1'b1),
         .REGCEB(1'b1),
-        .RSTRAMARSTRAM(1'b0),
+        .RSTRAMARSTRAM(rsta),
         .RSTRAMB(1'b0),
         .RSTREGARSTREG(rsta),
-        .RSTREGB(1'b0),
+        .RSTREGB(rstb),
         .SBITERR(\NLW_DEVICE_7SERIES.NO_BMM_INFO.TRUE_DP.SIMPLE_PRIM36.ram_SBITERR_UNCONNECTED ),
         .WEA({wea,wea,wea,wea}),
         .WEBWE({1'b0,1'b0,1'b0,1'b0,web,web,web,web}));
@@ -909,6 +928,7 @@ module blk_mem_gen_1_blk_mem_gen_prim_wrapper__parameterized0
     clka,
     clkb,
     rsta,
+    rstb,
     addra,
     addrb,
     dina,
@@ -920,6 +940,7 @@ module blk_mem_gen_1_blk_mem_gen_prim_wrapper__parameterized0
   input clka;
   input clkb;
   input rsta;
+  input rstb;
   input [12:0]addra;
   input [12:0]addrb;
   input [6:0]dina;
@@ -942,6 +963,7 @@ module blk_mem_gen_1_blk_mem_gen_prim_wrapper__parameterized0
   wire [6:0]dina;
   wire [6:0]dinb;
   wire rsta;
+  wire rstb;
   wire [0:0]wea;
   wire [0:0]web;
   wire [15:8]\NLW_DEVICE_7SERIES.NO_BMM_INFO.TRUE_DP.SIMPLE_PRIM18.ram_DOADO_UNCONNECTED ;
@@ -1068,10 +1090,10 @@ module blk_mem_gen_1_blk_mem_gen_prim_wrapper__parameterized0
         .ENBWREN(\DEVICE_7SERIES.NO_BMM_INFO.TRUE_DP.SIMPLE_PRIM18.ram_i_2_n_0 ),
         .REGCEAREGCE(1'b1),
         .REGCEB(1'b1),
-        .RSTRAMARSTRAM(1'b0),
+        .RSTRAMARSTRAM(rsta),
         .RSTRAMB(1'b0),
         .RSTREGARSTREG(rsta),
-        .RSTREGB(1'b0),
+        .RSTREGB(rstb),
         .WEA({wea,wea}),
         .WEBWE({1'b0,1'b0,web,web}));
   LUT2 #(
@@ -1097,6 +1119,7 @@ module blk_mem_gen_1_blk_mem_gen_top
     clka,
     clkb,
     rsta,
+    rstb,
     dina,
     dinb,
     wea,
@@ -1108,6 +1131,7 @@ module blk_mem_gen_1_blk_mem_gen_top
   input clka;
   input clkb;
   input rsta;
+  input rstb;
   input [6:0]dina;
   input [6:0]dinb;
   input [0:0]wea;
@@ -1122,6 +1146,7 @@ module blk_mem_gen_1_blk_mem_gen_top
   wire [6:0]douta;
   wire [6:0]doutb;
   wire rsta;
+  wire rstb;
   wire [0:0]wea;
   wire [0:0]web;
 
@@ -1135,6 +1160,7 @@ module blk_mem_gen_1_blk_mem_gen_top
         .douta(douta),
         .doutb(doutb),
         .rsta(rsta),
+        .rstb(rstb),
         .wea(wea),
         .web(web));
 endmodule
@@ -1151,12 +1177,12 @@ endmodule
 (* C_HAS_ENB = "0" *) (* C_HAS_INJECTERR = "0" *) (* C_HAS_MEM_OUTPUT_REGS_A = "1" *) 
 (* C_HAS_MEM_OUTPUT_REGS_B = "1" *) (* C_HAS_MUX_OUTPUT_REGS_A = "0" *) (* C_HAS_MUX_OUTPUT_REGS_B = "0" *) 
 (* C_HAS_REGCEA = "0" *) (* C_HAS_REGCEB = "0" *) (* C_HAS_RSTA = "1" *) 
-(* C_HAS_RSTB = "0" *) (* C_HAS_SOFTECC_INPUT_REGS_A = "0" *) (* C_HAS_SOFTECC_OUTPUT_REGS_B = "0" *) 
+(* C_HAS_RSTB = "1" *) (* C_HAS_SOFTECC_INPUT_REGS_A = "0" *) (* C_HAS_SOFTECC_OUTPUT_REGS_B = "0" *) 
 (* C_INITA_VAL = "0" *) (* C_INITB_VAL = "0" *) (* C_INIT_FILE = "blk_mem_gen_1.mem" *) 
 (* C_INIT_FILE_NAME = "no_coe_file_loaded" *) (* C_INTERFACE_TYPE = "0" *) (* C_LOAD_INIT_FILE = "0" *) 
 (* C_MEM_TYPE = "2" *) (* C_MUX_PIPELINE_STAGES = "0" *) (* C_PRIM_TYPE = "1" *) 
 (* C_READ_DEPTH_A = "4800" *) (* C_READ_DEPTH_B = "4800" *) (* C_READ_WIDTH_A = "7" *) 
-(* C_READ_WIDTH_B = "7" *) (* C_RSTRAM_A = "0" *) (* C_RSTRAM_B = "0" *) 
+(* C_READ_WIDTH_B = "7" *) (* C_RSTRAM_A = "1" *) (* C_RSTRAM_B = "0" *) 
 (* C_RST_PRIORITY_A = "CE" *) (* C_RST_PRIORITY_B = "CE" *) (* C_SIM_COLLISION_CHECK = "ALL" *) 
 (* C_USE_BRAM_BLOCK = "0" *) (* C_USE_BYTE_WEA = "0" *) (* C_USE_BYTE_WEB = "0" *) 
 (* C_USE_DEFAULT_DATA = "0" *) (* C_USE_ECC = "0" *) (* C_USE_SOFTECC = "0" *) 
@@ -1302,6 +1328,7 @@ module blk_mem_gen_1_blk_mem_gen_v8_3_3
   wire [6:0]douta;
   wire [6:0]doutb;
   wire rsta;
+  wire rstb;
   wire [0:0]wea;
   wire [0:0]web;
 
@@ -1374,6 +1401,7 @@ module blk_mem_gen_1_blk_mem_gen_v8_3_3
         .douta(douta),
         .doutb(doutb),
         .rsta(rsta),
+        .rstb(rstb),
         .wea(wea),
         .web(web));
 endmodule
@@ -1387,6 +1415,7 @@ module blk_mem_gen_1_blk_mem_gen_v8_3_3_synth
     clka,
     clkb,
     rsta,
+    rstb,
     dina,
     dinb,
     wea,
@@ -1398,6 +1427,7 @@ module blk_mem_gen_1_blk_mem_gen_v8_3_3_synth
   input clka;
   input clkb;
   input rsta;
+  input rstb;
   input [6:0]dina;
   input [6:0]dinb;
   input [0:0]wea;
@@ -1412,6 +1442,7 @@ module blk_mem_gen_1_blk_mem_gen_v8_3_3_synth
   wire [6:0]douta;
   wire [6:0]doutb;
   wire rsta;
+  wire rstb;
   wire [0:0]wea;
   wire [0:0]web;
 
@@ -1425,6 +1456,7 @@ module blk_mem_gen_1_blk_mem_gen_v8_3_3_synth
         .douta(douta),
         .doutb(doutb),
         .rsta(rsta),
+        .rstb(rstb),
         .wea(wea),
         .web(web));
 endmodule

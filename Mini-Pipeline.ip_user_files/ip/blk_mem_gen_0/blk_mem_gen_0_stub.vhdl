@@ -1,7 +1,7 @@
 -- Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2016.2 (win64) Build 1577090 Thu Jun  2 16:32:40 MDT 2016
--- Date        : Tue Sep 12 14:58:15 2017
+-- Date        : Wed Sep 13 16:35:08 2017
 -- Host        : DESKTOP-DM3G5QT running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode synth_stub
 --               Z:/Mini-Pipeline/Mini-Pipeline.runs/blk_mem_gen_0_synth_1/blk_mem_gen_0_stub.vhdl

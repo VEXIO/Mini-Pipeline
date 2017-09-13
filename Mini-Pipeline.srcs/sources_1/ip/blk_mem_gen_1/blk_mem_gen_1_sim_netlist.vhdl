@@ -1,7 +1,7 @@
 -- Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2016.2 (win64) Build 1577090 Thu Jun  2 16:32:40 MDT 2016
--- Date        : Mon Sep 11 14:57:21 2017
+-- Date        : Wed Sep 13 15:12:32 2017
 -- Host        : DESKTOP-DM3G5QT running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode funcsim
 --               Z:/Mini-Pipeline/Mini-Pipeline.srcs/sources_1/ip/blk_mem_gen_1/blk_mem_gen_1_sim_netlist.vhdl
@@ -129,7 +129,7 @@ begin
       Q => sel_pipe_d1(1),
       R => '0'
     );
-\no_softecc_sel_reg.ce_pri.sel_pipe_reg[0]\: unisim.vcomponents.FDRE
+\no_softecc_splrstbeh_sel_reg.ce_pri.sel_pipe_reg[0]\: unisim.vcomponents.FDRE
     generic map(
       INIT => '0'
     )
@@ -140,7 +140,7 @@ begin
       Q => sel_pipe(0),
       R => '0'
     );
-\no_softecc_sel_reg.ce_pri.sel_pipe_reg[1]\: unisim.vcomponents.FDRE
+\no_softecc_splrstbeh_sel_reg.ce_pri.sel_pipe_reg[1]\: unisim.vcomponents.FDRE
     generic map(
       INIT => '0'
     )
@@ -306,6 +306,7 @@ entity blk_mem_gen_1_blk_mem_gen_prim_wrapper is
     clka : in STD_LOGIC;
     clkb : in STD_LOGIC;
     rsta : in STD_LOGIC;
+    rstb : in STD_LOGIC;
     addra : in STD_LOGIC_VECTOR ( 12 downto 0 );
     addrb : in STD_LOGIC_VECTOR ( 12 downto 0 );
     dina : in STD_LOGIC_VECTOR ( 6 downto 0 );
@@ -555,10 +556,10 @@ begin
       RDADDRECC(8 downto 0) => \NLW_DEVICE_7SERIES.NO_BMM_INFO.TRUE_DP.SIMPLE_PRIM36.ram_RDADDRECC_UNCONNECTED\(8 downto 0),
       REGCEAREGCE => '1',
       REGCEB => '1',
-      RSTRAMARSTRAM => '0',
+      RSTRAMARSTRAM => rsta,
       RSTRAMB => '0',
       RSTREGARSTREG => rsta,
-      RSTREGB => '0',
+      RSTREGB => rstb,
       SBITERR => \NLW_DEVICE_7SERIES.NO_BMM_INFO.TRUE_DP.SIMPLE_PRIM36.ram_SBITERR_UNCONNECTED\,
       WEA(3) => wea(0),
       WEA(2) => wea(0),
@@ -598,6 +599,7 @@ entity \blk_mem_gen_1_blk_mem_gen_prim_wrapper__parameterized0\ is
     clka : in STD_LOGIC;
     clkb : in STD_LOGIC;
     rsta : in STD_LOGIC;
+    rstb : in STD_LOGIC;
     addra : in STD_LOGIC_VECTOR ( 12 downto 0 );
     addrb : in STD_LOGIC_VECTOR ( 12 downto 0 );
     dina : in STD_LOGIC_VECTOR ( 6 downto 0 );
@@ -754,10 +756,10 @@ begin
       ENBWREN => \DEVICE_7SERIES.NO_BMM_INFO.TRUE_DP.SIMPLE_PRIM18.ram_i_2_n_0\,
       REGCEAREGCE => '1',
       REGCEB => '1',
-      RSTRAMARSTRAM => '0',
+      RSTRAMARSTRAM => rsta,
       RSTRAMB => '0',
       RSTREGARSTREG => rsta,
-      RSTREGB => '0',
+      RSTREGB => rstb,
       WEA(1) => wea(0),
       WEA(0) => wea(0),
       WEBWE(3 downto 2) => B"00",
@@ -794,6 +796,7 @@ entity blk_mem_gen_1_blk_mem_gen_prim_width is
     clka : in STD_LOGIC;
     clkb : in STD_LOGIC;
     rsta : in STD_LOGIC;
+    rstb : in STD_LOGIC;
     addra : in STD_LOGIC_VECTOR ( 12 downto 0 );
     addrb : in STD_LOGIC_VECTOR ( 12 downto 0 );
     dina : in STD_LOGIC_VECTOR ( 6 downto 0 );
@@ -818,6 +821,7 @@ begin
       \douta[6]\(6 downto 0) => \douta[6]\(6 downto 0),
       \doutb[6]\(6 downto 0) => \doutb[6]\(6 downto 0),
       rsta => rsta,
+      rstb => rstb,
       wea(0) => wea(0),
       web(0) => web(0)
     );
@@ -833,6 +837,7 @@ entity \blk_mem_gen_1_blk_mem_gen_prim_width__parameterized0\ is
     clka : in STD_LOGIC;
     clkb : in STD_LOGIC;
     rsta : in STD_LOGIC;
+    rstb : in STD_LOGIC;
     addra : in STD_LOGIC_VECTOR ( 12 downto 0 );
     addrb : in STD_LOGIC_VECTOR ( 12 downto 0 );
     dina : in STD_LOGIC_VECTOR ( 6 downto 0 );
@@ -857,6 +862,7 @@ begin
       dina(6 downto 0) => dina(6 downto 0),
       dinb(6 downto 0) => dinb(6 downto 0),
       rsta => rsta,
+      rstb => rstb,
       wea(0) => wea(0),
       web(0) => web(0)
     );
@@ -874,6 +880,7 @@ entity blk_mem_gen_1_blk_mem_gen_generic_cstr is
     clka : in STD_LOGIC;
     clkb : in STD_LOGIC;
     rsta : in STD_LOGIC;
+    rstb : in STD_LOGIC;
     dina : in STD_LOGIC_VECTOR ( 6 downto 0 );
     dinb : in STD_LOGIC_VECTOR ( 6 downto 0 );
     wea : in STD_LOGIC_VECTOR ( 0 to 0 );
@@ -940,6 +947,7 @@ begin
       \douta[6]\(6 downto 0) => ram_douta(6 downto 0),
       \doutb[6]\(6 downto 0) => ram_doutb(6 downto 0),
       rsta => rsta,
+      rstb => rstb,
       wea(0) => wea(0),
       web(0) => web(0)
     );
@@ -966,6 +974,7 @@ begin
       dina(6 downto 0) => dina(6 downto 0),
       dinb(6 downto 0) => dinb(6 downto 0),
       rsta => rsta,
+      rstb => rstb,
       wea(0) => wea(0),
       web(0) => web(0)
     );
@@ -983,6 +992,7 @@ entity blk_mem_gen_1_blk_mem_gen_top is
     clka : in STD_LOGIC;
     clkb : in STD_LOGIC;
     rsta : in STD_LOGIC;
+    rstb : in STD_LOGIC;
     dina : in STD_LOGIC_VECTOR ( 6 downto 0 );
     dinb : in STD_LOGIC_VECTOR ( 6 downto 0 );
     wea : in STD_LOGIC_VECTOR ( 0 to 0 );
@@ -1005,6 +1015,7 @@ begin
       douta(6 downto 0) => douta(6 downto 0),
       doutb(6 downto 0) => doutb(6 downto 0),
       rsta => rsta,
+      rstb => rstb,
       wea(0) => wea(0),
       web(0) => web(0)
     );
@@ -1022,6 +1033,7 @@ entity blk_mem_gen_1_blk_mem_gen_v8_3_3_synth is
     clka : in STD_LOGIC;
     clkb : in STD_LOGIC;
     rsta : in STD_LOGIC;
+    rstb : in STD_LOGIC;
     dina : in STD_LOGIC_VECTOR ( 6 downto 0 );
     dinb : in STD_LOGIC_VECTOR ( 6 downto 0 );
     wea : in STD_LOGIC_VECTOR ( 0 to 0 );
@@ -1044,6 +1056,7 @@ begin
       douta(6 downto 0) => douta(6 downto 0),
       doutb(6 downto 0) => doutb(6 downto 0),
       rsta => rsta,
+      rstb => rstb,
       wea(0) => wea(0),
       web(0) => web(0)
     );
@@ -1191,7 +1204,7 @@ entity blk_mem_gen_1_blk_mem_gen_v8_3_3 is
   attribute C_HAS_RSTA : integer;
   attribute C_HAS_RSTA of blk_mem_gen_1_blk_mem_gen_v8_3_3 : entity is 1;
   attribute C_HAS_RSTB : integer;
-  attribute C_HAS_RSTB of blk_mem_gen_1_blk_mem_gen_v8_3_3 : entity is 0;
+  attribute C_HAS_RSTB of blk_mem_gen_1_blk_mem_gen_v8_3_3 : entity is 1;
   attribute C_HAS_SOFTECC_INPUT_REGS_A : integer;
   attribute C_HAS_SOFTECC_INPUT_REGS_A of blk_mem_gen_1_blk_mem_gen_v8_3_3 : entity is 0;
   attribute C_HAS_SOFTECC_OUTPUT_REGS_B : integer;
@@ -1223,7 +1236,7 @@ entity blk_mem_gen_1_blk_mem_gen_v8_3_3 is
   attribute C_READ_WIDTH_B : integer;
   attribute C_READ_WIDTH_B of blk_mem_gen_1_blk_mem_gen_v8_3_3 : entity is 7;
   attribute C_RSTRAM_A : integer;
-  attribute C_RSTRAM_A of blk_mem_gen_1_blk_mem_gen_v8_3_3 : entity is 0;
+  attribute C_RSTRAM_A of blk_mem_gen_1_blk_mem_gen_v8_3_3 : entity is 1;
   attribute C_RSTRAM_B : integer;
   attribute C_RSTRAM_B of blk_mem_gen_1_blk_mem_gen_v8_3_3 : entity is 0;
   attribute C_RST_PRIORITY_A : string;
@@ -1345,6 +1358,7 @@ inst_blk_mem_gen: entity work.blk_mem_gen_1_blk_mem_gen_v8_3_3_synth
       douta(6 downto 0) => douta(6 downto 0),
       doutb(6 downto 0) => doutb(6 downto 0),
       rsta => rsta,
+      rstb => rstb,
       wea(0) => wea(0),
       web(0) => web(0)
     );
@@ -1362,6 +1376,7 @@ entity blk_mem_gen_1 is
     dina : in STD_LOGIC_VECTOR ( 6 downto 0 );
     douta : out STD_LOGIC_VECTOR ( 6 downto 0 );
     clkb : in STD_LOGIC;
+    rstb : in STD_LOGIC;
     web : in STD_LOGIC_VECTOR ( 0 to 0 );
     addrb : in STD_LOGIC_VECTOR ( 12 downto 0 );
     dinb : in STD_LOGIC_VECTOR ( 6 downto 0 );
@@ -1470,7 +1485,7 @@ architecture STRUCTURE of blk_mem_gen_1 is
   attribute C_HAS_RSTA : integer;
   attribute C_HAS_RSTA of U0 : label is 1;
   attribute C_HAS_RSTB : integer;
-  attribute C_HAS_RSTB of U0 : label is 0;
+  attribute C_HAS_RSTB of U0 : label is 1;
   attribute C_HAS_SOFTECC_INPUT_REGS_A : integer;
   attribute C_HAS_SOFTECC_INPUT_REGS_A of U0 : label is 0;
   attribute C_HAS_SOFTECC_OUTPUT_REGS_B : integer;
@@ -1502,7 +1517,7 @@ architecture STRUCTURE of blk_mem_gen_1 is
   attribute C_READ_WIDTH_B : integer;
   attribute C_READ_WIDTH_B of U0 : label is 7;
   attribute C_RSTRAM_A : integer;
-  attribute C_RSTRAM_A of U0 : label is 0;
+  attribute C_RSTRAM_A of U0 : label is 1;
   attribute C_RSTRAM_B : integer;
   attribute C_RSTRAM_B of U0 : label is 0;
   attribute C_RST_PRIORITY_A : string;
@@ -1569,7 +1584,7 @@ U0: entity work.blk_mem_gen_1_blk_mem_gen_v8_3_3
       regceb => '0',
       rsta => rsta,
       rsta_busy => NLW_U0_rsta_busy_UNCONNECTED,
-      rstb => '0',
+      rstb => rstb,
       rstb_busy => NLW_U0_rstb_busy_UNCONNECTED,
       s_aclk => '0',
       s_aresetn => '0',

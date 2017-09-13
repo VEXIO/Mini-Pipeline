@@ -13,6 +13,15 @@ module ps2_keyboard (clk, reset, ps2_clk, ps2_data, rdn, data, ready, overflow, 
     reg [2:0] w_ptr, r_ptr; // fifo w/r pointers
     reg [1:0] ps2_clk_sync; // for detecting falling edge
 
+    initial begin
+        buffer = 0;
+        count = 0;
+        w_ptr = 0;
+        r_ptr = 0;
+        ps2_clk_sync = 0;
+        overflow = 0;
+    end
+
     output [31:0] debug;
     assign debug = {1'b0, w_ptr, 1'b0, r_ptr, fifo[r_ptr], 6'b0, buffer};
     always @ (posedge clk) begin
