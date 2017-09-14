@@ -12,6 +12,7 @@ INT:
     bne $k0, $k1, testEnter
 
 backspaceOp:
+    sw $zero, 0($t8)                            # clear underline
     addi $t8, $t8, -1                           # clear one bit
     j EXITINT
 
