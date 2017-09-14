@@ -50,7 +50,7 @@ module scan_decoder(
             8'h6B: ascii <= 8'd6;
             8'h72: ascii <= 8'd7;
             8'h74: ascii <= 8'd8;
-            8'hF0: ascii <= 8'd255;
+            8'hF0: ascii <= 8'd9;
             default: ascii <= 8'd255;
         endcase
 

@@ -11,7 +11,7 @@ module ps2_keyboard (clk, reset, ps2_clk, ps2_data, rdn, data, ready, overflow, 
     reg [7:0] fifo[7:0]; // circular fifo
     reg [3:0] count; // count ps2_data bits
     reg [2:0] w_ptr, r_ptr; // fifo w/r pointers
-    reg [1:0] ps2_clk_sync; // for detecting falling edge
+    reg [3:0] ps2_clk_sync; // for detecting falling edge
 
     initial begin
         buffer = 0;
@@ -25,9 +25,11 @@ module ps2_keyboard (clk, reset, ps2_clk, ps2_data, rdn, data, ready, overflow, 
     output [31:0] debug;
     assign debug = {1'b0, w_ptr, 1'b0, r_ptr, fifo[r_ptr], 6'b0, buffer};
     always @ (posedge clk) begin
-        ps2_clk_sync <= {ps2_clk_sync[0], ps2_clk};
+        ps2_clk_sync <= {ps2_clk_sync[2:0], ps2_clk};
     end
-    wire sampling = ps2_clk_sync[1] & ~ps2_clk_sync[0]; // had a falling edge
+    wire sampling = &ps2_clk_sync[3:2] & ~|ps2_clk_sync[1:0]; // had a falling edge
+
+    reg dropNext = 0;
 
     always @ (posedge clk) begin
         if (reset) begin // on reset
@@ -40,8 +42,16 @@ module ps2_keyboard (clk, reset, ps2_clk, ps2_data, rdn, data, ready, overflow, 
             if (count == 4'd10) begin // if got one frame
                 if ((buffer[0] == 0) && (ps2_data) && (^buffer[9:1])) begin
                     if ((w_ptr + 3'b1) != r_ptr) begin
-                        fifo[w_ptr] <= buffer[8:1];
-                        w_ptr <= w_ptr + 3'b1; // w_ptr++
+                        if (buffer[8:1] == 8'hf0) begin
+                            dropNext <= 1;
+                        end
+                        else if (dropNext) begin
+                            dropNext <= 0;
+                        end
+                        else begin
+                            fifo[w_ptr] <= buffer[8:1];
+                            w_ptr <= w_ptr + 3'b1; // w_ptr++
+                        end
                     end
                     else begin
                         overflow <= 1; // overflow

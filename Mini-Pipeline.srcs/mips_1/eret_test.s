@@ -1,21 +1,23 @@
 .text 0x0
 j init;
 INT:
-    addi $t0, $t0, 0x1       # add offset
-    lui $s0, 0x4000          # load test
-    sw $zero, 0($s0)         # reset readn
+    # la $s1, vgaAddress         # load vga address pointer
+    # lw $s1, ($s1)              # load vga address
+    lui $s1, 0x4000            # load vga address
+    lw $t1, ($s1)              # load ascii
+    sw $t1, ($s0)              # write vram
+    addi $s0, $s0, 0x1         # add offset
+    sw $zero, 0($s1)           # reset readn
     eret
 init:
-    lui $t0, 0x8000
-    addi $t0, $t0, 0x510     # with lui, get 0x80000510 = vram addr
+    # la $s0, vramAddr
+    # lw $s0, ($s0)
+    lui $s0, 0x8000
+    addi $s0, $s0, 0x510     # with lui, get 0x80000510 = vram addr
 start:
-    addi $t1, $zero, 0x41    # char 'A'
-    addi $t2, $zero, 0x1     # load 1
-    addi $t3, $zero, 0x5b    # load 'Z' + 1
-    sw $t1, ($t0)            # write vram
-loop:
-    add $t1, $t1, $t2        # 'A' to 'Z'
-    slt $t4, $t1, $t3        # if $t1 is not smaller than 'Z' + 1
-    bne $t4, $t2, start      # reset if larger than 'Z'
-    sw $t1, ($t0)            # write vram
-    j loop                   # loop
+    # sw $t1, ($t0)            # write vram
+    j start
+
+# .data 0x100
+#     vramAddr: .word 0x80000510        # s0
+#     vgaAddress: .word 0x40000000      # s1
