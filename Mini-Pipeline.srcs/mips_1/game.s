@@ -1,65 +1,44 @@
 .text 0x0
 j init
 INT:
-    # if system not init, eret
-    # la $k0, SP
-    # lw $k0, 0($k0)
-    # bne $k0, $sp, ERET
+    la $k0, keyboardAddr
+    lw $k0, 0($k0)              # load keyboard address
+    lw $k0, 0($k0)              # load ascii
 
-    # addi $s1, $zero, 0x5f5f
-    # bne $k1, $s1, ERET
-    # self check finish
+    li $k1, 0xff                # ignore undefined char
+    beq $k0, $k1, EXITINT       # just ignore
 
-    # preserve register
-    addi $sp, $sp, -4
-    sw $t0, 0($sp)
+    li $k1, 0x1                 # deal with backspace
+    bne $k0, $k1, testEnter
 
-    # load keyboard address
-    la $t0, keyboardAddr
-    lw $t0, 0($t0)
+backspaceOp:
+    addi $t8, $t8, 0x1          # clear one bit
+    j EXITINT
 
-    # store key
-    lw $k0, 0($t0)
-    # write to vram
-    sw $k0, 0($t8)
+# testEnter:
 
-    # update vram pointer
-    addi $t8, $t8, 1
+NormalOp:
+    sw $k1, 0($t8)              # write vram
+    addi $t8, $t8, 0x1          # add offset
 
-    # reset readn
-    sw $zero, 0($t0)
-
-    # save back to registers
-    lw $t0, 0($sp)
-    addi $sp, $sp, 4
-
-ERET:
+EXITINT:
+    la $k0, keyboardAddr
+    lw $k0, 0($k0)              # load keyboard address
+    sw $zero, 0($k0)            # reset readn
     eret
 
 init:
-    # load FP and SP pointers
     la $t0, FP
     lw $fp, 0($t0)
     la $t0, SP
     lw $sp, 0($t0)
 
-    # la $t0, vramAddr
-    # lw $t8, 0($t0)
-    lui $t8, 0x8000
-    addi $t8, $t8, 0x10
-
-    # save system status
-    # addi $k1, $zero, 0x5f5f
-
-    # start
-    j start
+    la $t8, vramAddr
+    lw $t8, ($t8)
 
 start:
-    j start
+    # sw $t1, ($t0)              # write vram
     j blink_cursor
-
-reset:
-    j reset
 
 blink_cursor:
     addi $t0, $zero, 0x1                        # i
@@ -68,8 +47,8 @@ blink_cursor:
 
 blink_cursor_clear:
     beq $t1, $zero, blink_cursor_set_underline
-    move $t3, $zero                             # set char space
     move $t1, $zero                             # revert flag
+    move $t3, $zero                             # set char space
     j blink_cursor_clear_next
 blink_cursor_set_underline:
     addi $t1, $zero, 0x1                        # revert flag
@@ -80,15 +59,16 @@ blink_cursor_clear_next:
 
 blink_cursor_loop:
     addi $t0, $t0, 0x1
-    lui $t2, 0x0020
+    lui $t2, 0x0010
     beq $t0, $t2, blink_cursor_clear
     j blink_cursor_loop
 
-.data 0x200
+
+.data 0x100
     FP: .word 0x500
     SP: .word 0x1000
-    vramAddr: .word 0x80000010
-    keyboardAddr: .word 0x40000000
+    vramAddr: .word 0x80000510        # s0
+    keyboardAddr: .word 0x40000000      # s1
 
 # FP
 .data 0x500

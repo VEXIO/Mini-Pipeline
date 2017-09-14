@@ -142,7 +142,7 @@ module ctrl(
                     RegWrite = 1;
                 end
                 else if (LW) MemRead = 1;
-                else MemWrite = 1;
+                else if (SW) MemWrite = 1;
 
                 if (LW) next_state = WB;
                 else next_state = IF;
