@@ -35,14 +35,13 @@ init:
     lw $sp, 0($t0)
 
     la $t8, vramAddr
-    lw $t8, ($t8)
+    lw $t8, 0($t8)
 
 start:
-    # sw $t1, ($t0)                             # write vram
     j blink_cursor
 
 blink_cursor:
-    li $t0, 1                                   # i
+    addi $t0, $zero, 0x1                        # i
     move $t1, $t0                               # flag
     j blink_cursor_loop
 
@@ -52,14 +51,14 @@ blink_cursor_clear:
     move $t3, $zero                             # set char space
     j blink_cursor_clear_next
 blink_cursor_set_underline:
-    li $t1, 0x1                                 # revert flag
-    li $t3, 0x5f                                # set char underline
+    addi $t1, $zero, 0x1                        # revert flag
+    addi $t3, $zero, 0x5f                       # set char underline
 blink_cursor_clear_next:
     sw $t3, 0($t8)
     move $t0, $zero                             # clear counter
 
 blink_cursor_loop:
-    li $t0, 0x1
+    addi $t0, $t0, 0x1
     lui $t2, 0x0010
     beq $t0, $t2, blink_cursor_clear
     j blink_cursor_loop
