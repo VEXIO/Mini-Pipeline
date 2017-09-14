@@ -12,7 +12,7 @@ INT:
     bne $k0, $k1, testEnter
 
 backspaceOp:
-    sw $zero, 0($t8)                            # clear underline
+    # sw $zero, 0($t8)                            # clear underline
     addi $t8, $t8, -1                           # clear one bit
     j EXITINT
 
@@ -39,7 +39,6 @@ init:
     lw $t8, ($t8)
 
 start:
-    # sw $t1, ($t0)                             # write vram
     j blink_cursor
 
 blink_cursor:
@@ -60,7 +59,7 @@ blink_cursor_clear_next:
     move $t0, $zero                             # clear counter
 
 blink_cursor_loop:
-    li $t0, 0x1
+    addi $t0, $t0, 0x1
     lui $t2, 0x0010
     beq $t0, $t2, blink_cursor_clear
     j blink_cursor_loop
@@ -76,4 +75,11 @@ blink_cursor_loop:
 .data 0x500
 
 # SP
+.data 0xffc
+
+# Input Buffer
 .data 0x1000
+
+# VRAM BUFFER
+.data 0x1140
+
