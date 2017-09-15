@@ -55,6 +55,7 @@ ManipulateInputBuffer:
     # copy input buffer to data buffer
     la $k1, data_buffer_write
     lw $k1, 0($k1)
+    addi $k1, $k1, -320                 # copy at the line before
     la $t8, input_buffer
     lw $t8, 0($t8)
     addi $t9, $t8, 0x140                # 80 * 4 = 480d = 0x140
@@ -70,19 +71,20 @@ LoadVRAMToReg:
     # and at the same time clear input buffer
     la $k1, vramAddr
     lw $k1, 0($k1)
+    addi $k1, $k1, -80                 # copy at the line before
     la $t8, input_buffer
     lw $t8, 0($t8)
 CopyInputBufferToVRAM:
     lw $gp, 0($t8)
     sw $gp, 0($k1)
     sw $zero, 0($t8)                    # clear input buffer at this time
+    sw $zero, 80($k1)                   # clear input line
     addi $t8, $t8, 4
     addi $k1, $k1, 1
     bne $t8, $t9, CopyInputBufferToVRAM
 
 FinishBufferCopy:
     move $t8, $zero
-
     j EXITINT
 
 NormalOp:
@@ -95,7 +97,10 @@ NormalOp:
 
     la $k1, input_buffer
     lw $k1, 0($k1)
-    add $k1, $k1, $t8
+    move $t9, $t8
+    add $t9, $t9, $t9
+    add $t9, $t9, $t9
+    add $k1, $k1, $t9
     sw $k0, 0($k1)                              # write input buffer
     addi $t8, $t8, 1                            # add offset
 
