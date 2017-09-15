@@ -27,7 +27,10 @@ backspaceOp:
     la $k1, input_buffer
     lw $k1, 0($k1)                          # load input buffer address
     add $k1, $k1, $t8
-    sw $zero, 0($k1)                        # clear underline - input buffer
+    add $k1, $k1, $t8
+    add $k1, $k1, $t8
+    add $k1, $k1, $t8
+    sw $zero, -4($k1)                        # clear underline - input buffer
 
     addi $t8, $t8, -1                           # clear one bit
     j EXITINT
@@ -82,6 +85,83 @@ CopyInputBufferToVRAM:
     addi $t8, $t8, 4
     addi $k1, $k1, 1
     bne $t8, $t9, CopyInputBufferToVRAM
+
+# ProcessInput:
+#     j FinishBufferCopy
+#     la $s0, Inst_Table
+#     lw $s0, 0($s0)
+#     la $s1, Inst_Table_l
+#     lw $s1, 0($s1)
+
+#     add $s1, $s1, $s1
+#     add $s1, $s1, $s1                       # t1 * 4
+
+#     add $s1, $s0, $s1                       # mem offset
+# TestInst:
+#     beq $s0, $s1, AllInstNotMatch
+#     jal LoadInst
+#     bne $v0, $zero, InstMatch
+#     addi $s0, $s0, 8
+#     j TestInst
+# InstMatch:
+#     la $s3, LS_s
+#     lw $s3, 0($s3)
+#     beq $s3, $v0, PrintHelloWorld   # inst LS
+#     la $s3, Exit_s
+#     lw $s3, 0($s3)
+#     beq $s3, $v0, PrintExit         # inst Exit
+
+# AllInstNotMatch:
+#     j PrintNoMatch
+
+# LoadInst:
+#     lw $a0, 0($s0)                  # inst start
+#     lw $a1, 4($s0)                  # inst length
+#     add $a1, $a1, $a1
+#     add $a1, $a1, $a1               # calculate offset
+#     add $a1, $a0, $a1               # calculate inst terminate
+#     la $s2, input_buffer
+#     lw $s2, 0($s2)
+# VerifyInstSame:
+#     beq $a0, $a1, InstIsSame
+#     lw $s3, 0($a0)
+#     lw $s4, 0($s2)
+#     bne $s3, $s4, InstIsNotSame
+#     addi $a0, $a0, 4
+#     addi $s2, $s2, 4
+#     j VerifyInstSame
+# InstIsSame:
+#     lw $v0, 0($s0)
+#     jr $ra
+# InstIsNotSame:
+#     move $v0, $zero
+#     jr $ra
+
+# PrintHelloWorld:
+#     la $s0, HelloWorld
+#     lw $s0, 0($s0)
+#     la $s1, HelloWorld_l
+#     lw $s1, 0($s1)
+#     add $s1, $s0, $s1
+#     la $s2, input_buffer
+#     lw $s2, 0($s2)
+#     la $s3, vramAddr
+#     lw $s3, 0($s3)
+# PrintHelloWorldStart:
+#     beq $s0, $s1, Next
+#     lw $s4, 0($s0)
+#     sw $s4, 0($s2)
+#     sw $s4, 0($s3)
+#     addi $s0, $s0, 4
+#     addi $s2, $s2, 4
+#     addi $s3, $s3, 1
+#     j PrintHelloWorldStart
+# Next:
+#     j FinishBufferCopy
+# PrintExit:
+#     j FinishBufferCopy
+# PrintNoMatch:
+#     j FinishBufferCopy
 
 FinishBufferCopy:
     move $t8, $zero

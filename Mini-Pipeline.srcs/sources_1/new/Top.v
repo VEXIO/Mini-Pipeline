@@ -91,7 +91,7 @@ module Top(
     wire [31:0] SegDisplay, eret_out;
     wire [31:0] debug_keyboard, ctrl_debug;
 
-    assign INT = keyboard_ready & SW_OK[11];
+    assign INT = keyboard_ready;
 
     Multi_CPU U1(.clk(CPU_clk), .reset(rst), .inst_out(inst), .INT(INT), .PC_out(PC), .mem_w(mem_w), .Addr_out(Addr_out), .Data_in(Data_in), .Data_out(Data_out), .eret_out(eret_out), .state(State), .CPU_MIO(), .MIO_ready(1'b1), .ctrl_debug(ctrl_debug));
 
