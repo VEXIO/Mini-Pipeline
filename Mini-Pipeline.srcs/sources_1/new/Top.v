@@ -98,7 +98,7 @@ module Top(
     wire dram_en, chram_en;
     wire CHorD = Addr_out[31];
     wire KeyboardIO = Addr_out[30];
-    assign dram_en = mem_w & ~CHorD & ~KeyboardIO;
+    assign dram_en = mem_w & ~CHorD & ~KeyboardIO & (Addr_out[15:0] >= 16'h1400);
     assign chram_en = mem_w & CHorD;
 
     ps2_keyboard ps2_keyboard(.clk(clk50), .reset(rst), .ps2_clk(keyboard_clk), .ps2_data(keyboard_dat), .rdn(~(KeyboardIO & mem_w)), .data(keyboard_data), .ready(keyboard_ready), .overflow(keyboard_overflow), .debug(debug_keyboard));

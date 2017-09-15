@@ -26,10 +26,15 @@ module Real_Top_Sim();
         #10;
         rst = 0;
 
-        #50;
+        #10000;
 
         keyboard_ready = 1;
-        keyboard_data = 8'h70;
+        keyboard_data = 8'h1C;
+
+        #10000;
+
+        keyboard_ready = 0;
+        keyboard_data = 8'h1C;
 
         #100;
     end
@@ -102,8 +107,6 @@ module Real_Top_Sim();
     addr_to_texel addr_to_texel(.row_addr(row_addr), .col_addr(col_addr), .scan_dir(scan_dir), .offset(offset));
 
     texel_lookup texel_lookup(.ascii(scan_res), .offset(offset), .en(scan_res != 7'b0), .o(texel_on));
-
-    MUX8T1_32 dispMUX8T1(.s(SW_OK[7:5]), .o(SegDisplay), .I0(Data_out), .I1(Addr_out), .I2(PC), .I3(inst), .I4({keyboard_data, {8{keyboard_overflow}}, {8{KeyboardIO & Data_out[0]}}, {8{keyboard_ready}}}), .I5(debug_keyboard), .I6(eret_out), .I7(ctrl_debug));
 
 
     integer i;

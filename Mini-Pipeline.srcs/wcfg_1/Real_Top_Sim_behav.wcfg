@@ -11,11 +11,11 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="994000001fs"></ZoomEndTime>
-      <Cursor1Time time="210000000fs"></Cursor1Time>
+      <ZoomStartTime time="23295932125fs"></ZoomStartTime>
+      <ZoomEndTime time="26116013576fs"></ZoomEndTime>
+      <Cursor1Time time="25646000000fs"></Cursor1Time>
    </zoom_setting>
-   <WVObjectSize size="35" />
+   <WVObjectSize size="17" />
    <wvobject fp_name="/Real_Top_Sim/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -83,77 +83,5 @@
    <wvobject fp_name="/Real_Top_Sim/eret_out" type="array">
       <obj_property name="ElementShortName">eret_out[31:0]</obj_property>
       <obj_property name="ObjectShortName">eret_out[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/Real_Top_Sim/dram_en" type="logic">
-      <obj_property name="ElementShortName">dram_en</obj_property>
-      <obj_property name="ObjectShortName">dram_en</obj_property>
-   </wvobject>
-   <wvobject fp_name="/Real_Top_Sim/chram_en" type="logic">
-      <obj_property name="ElementShortName">chram_en</obj_property>
-      <obj_property name="ObjectShortName">chram_en</obj_property>
-   </wvobject>
-   <wvobject fp_name="/Real_Top_Sim/CHorD" type="logic">
-      <obj_property name="ElementShortName">CHorD</obj_property>
-      <obj_property name="ObjectShortName">CHorD</obj_property>
-   </wvobject>
-   <wvobject fp_name="/Real_Top_Sim/KeyboardIO" type="logic">
-      <obj_property name="ElementShortName">KeyboardIO</obj_property>
-      <obj_property name="ObjectShortName">KeyboardIO</obj_property>
-   </wvobject>
-   <wvobject fp_name="/Real_Top_Sim/keyboard_rdn" type="logic">
-      <obj_property name="ElementShortName">keyboard_rdn</obj_property>
-      <obj_property name="ObjectShortName">keyboard_rdn</obj_property>
-   </wvobject>
-   <wvobject fp_name="/Real_Top_Sim/U1/ctrl/PCSource" type="array">
-      <obj_property name="ElementShortName">PCSource[1:0]</obj_property>
-      <obj_property name="ObjectShortName">PCSource[1:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/Real_Top_Sim/U1/ctrl/eret_source" type="logic">
-      <obj_property name="ElementShortName">eret_source</obj_property>
-      <obj_property name="ObjectShortName">eret_source</obj_property>
-   </wvobject>
-   <wvobject fp_name="/Real_Top_Sim/U1/M_datapath/PCR/CE" type="logic">
-      <obj_property name="ElementShortName">CE</obj_property>
-      <obj_property name="ObjectShortName">CE</obj_property>
-   </wvobject>
-   <wvobject fp_name="/Real_Top_Sim/U1/M_datapath/PCR/D" type="array">
-      <obj_property name="ElementShortName">D[31:0]</obj_property>
-      <obj_property name="ObjectShortName">D[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/Real_Top_Sim/U1/M_datapath/PCR/Q" type="array">
-      <obj_property name="ElementShortName">Q[31:0]</obj_property>
-      <obj_property name="ObjectShortName">Q[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/Real_Top_Sim/U1/ctrl/EPC" type="array">
-      <obj_property name="ElementShortName">EPC[31:0]</obj_property>
-      <obj_property name="ObjectShortName">EPC[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/Real_Top_Sim/U1/M_datapath/PC_Current" type="array">
-      <obj_property name="ElementShortName">PC_Current[31:0]</obj_property>
-      <obj_property name="ObjectShortName">PC_Current[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/Real_Top_Sim/U1/M_datapath/PC_Next" type="array">
-      <obj_property name="ElementShortName">PC_Next[31:0]</obj_property>
-      <obj_property name="ObjectShortName">PC_Next[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/Real_Top_Sim/U1/ctrl/INTON" type="logic">
-      <obj_property name="ElementShortName">INTON</obj_property>
-      <obj_property name="ObjectShortName">INTON</obj_property>
-   </wvobject>
-   <wvobject fp_name="/Real_Top_Sim/U1/ctrl/state" type="array">
-      <obj_property name="ElementShortName">state[2:0]</obj_property>
-      <obj_property name="ObjectShortName">state[2:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/Real_Top_Sim/U1/ctrl/next_state" type="array">
-      <obj_property name="ElementShortName">next_state[2:0]</obj_property>
-      <obj_property name="ObjectShortName">next_state[2:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/Real_Top_Sim/U1/M_datapath/ALUR/D" type="array">
-      <obj_property name="ElementShortName">D[31:0]</obj_property>
-      <obj_property name="ObjectShortName">D[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/Real_Top_Sim/U1/M_datapath/ALUR/Q" type="array">
-      <obj_property name="ElementShortName">Q[31:0]</obj_property>
-      <obj_property name="ObjectShortName">Q[31:0]</obj_property>
    </wvobject>
 </wave_config>
